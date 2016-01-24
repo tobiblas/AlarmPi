@@ -1,5 +1,6 @@
 <?php
-    $myfile = fopen("ALARMSTATUS.txt", "r") or die("Unable to open file!");
+    include("config.php");
+    $myfile = fopen($alarm_path . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
     $fileline = fgets($myfile);
     fclose($myfile);
     $alarm_on = false;
@@ -8,7 +9,7 @@
         $alarm_on = true;
     }
     
-    $file = fopen('ALARMSTATUS.txt',"w");
+    $file = fopen($alarm_path . 'ALARMSTATUS.txt',"w");
     if ($alarm_on) {
         fwrite($file,'ALARM_ON: false');
     } else {
@@ -17,7 +18,7 @@
     fclose($file);
     
     if ($alarm_on == false) {
-        file_put_contents("ALARMTRIGGERED.txt", "");
-        file_put_contents('ALARMTRIGGERED.txt', "time#triggerid".PHP_EOL , FILE_APPEND);
+        file_put_contents($alarm_path . "ALARMTRIGGERED.txt", "");
+        file_put_contents($alarm_path . 'ALARMTRIGGERED.txt', "time#triggerid".PHP_EOL , FILE_APPEND);
     }
 ?>

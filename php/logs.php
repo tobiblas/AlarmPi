@@ -5,6 +5,8 @@
     if (isset($_GET['alarmoff'])) {
         $alarm_off_filter = $_GET['alarmoff'];
     }
+    
+    include("config.php");
 ?>
 
 <script>
@@ -90,7 +92,7 @@ function menuselected2(itemselected) {
     
     
     
-    $handle = fopen("ALARMLOG.txt", "r");
+    $handle = fopen($alarm_path . "ALARMLOG.txt", "r");
     if ($handle) {
         $i = 1;
         while (($line = fgets($handle)) !== false) {
@@ -108,7 +110,7 @@ function menuselected2(itemselected) {
                 
                 if (strcmp($onOrOff,'On') == 0 && strcmp($alarm_on_filter,'true') == 0 ||
                     strcmp($onOrOff,'Off') == 0 && strcmp($alarm_off_filter,'true') == 0) {
-                    echo "<div class='logrow' style='text-align: center;'>" . $time . " | DetectorID = " . $detectorID . " AlarmStatus= " . $onOrOff . "</div>";
+                    echo "<div class='logrow' style='text-align: center;'>" . $time . " | DetectorID = " . $detectorID . " | AlarmStatus= " . $onOrOff . "</div>";
                 }
                 
             }

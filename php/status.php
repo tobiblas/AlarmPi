@@ -4,7 +4,8 @@
 <div id="alarmsettings">
 
 <?php
-    $myfile = fopen("ALARMSTATUS.txt", "r") or die("Unable to open file!");
+    include("config.php");
+    $myfile = fopen($alarm_path . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
     $fileline = fgets($myfile);
     fclose($myfile);
     $alarm_on = false;
@@ -34,11 +35,11 @@
 
 <?php
     
-    # här nere gå igenom varje alarm som hänt (kan vara flera detektorer) och printa ut tid och id.
+    # loop through all triggered alarms (might be several detectors) and print time and id
     
     if ($alarm_on) {
     
-        $handle = fopen("ALARMTRIGGERED.txt", "r");
+        $handle = fopen($alarm_path . "ALARMTRIGGERED.txt", "r");
         if ($handle) {
             $i = 1;
             while (($line = fgets($handle)) !== false) {
