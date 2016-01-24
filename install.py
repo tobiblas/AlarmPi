@@ -102,3 +102,8 @@ while inputCorrect == False:
 
 if phoneConnected:
     print subprocess.Popen('sudo apt-get install adb-tools-android', shell=True, stdout=subprocess.PIPE).stdout.read()
+
+##############################################################
+
+print
+print "Congratulation! Now go to " + alarmPath + "settings.properties and fill in the necessary data. If this is not the main brain Pi in your alarm system all you need to enter is the server IP for the main Pi and the detector id."
