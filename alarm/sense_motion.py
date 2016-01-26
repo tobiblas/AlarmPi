@@ -4,25 +4,10 @@ from subprocess import call
 import time
 import sys
 import urllib2
+import RPi.GPIO as GPIO
 
-def messageToAndroidApp(sound, sms, message, phonenumbers):
-
-    #TODO: send data to php server. 
-# ANDROID APP TAKES: sound, sms, message, phonenumber.
-
-#               call(["adb","shell", "am", "force-stop", "com.tobiblas.alarmpusher"])
-#               call(["adb", "shell", "am", "start", "-a", "android.intent.action.VIEW", "-n", "com.tobiblas.alarmpusher/.MainActivity", "-e" ,"phonenumbers", "'+46760732005'", "-e", "message", "'Nämen! Nu tror jag tamigfasen att larmet gick'"])
-
-
-def sendSMSWIFIDown(phonenumbers):
-    print "TODO: send sms wifidown"
-    messageToAndroidApp(False,
-                        True,
-                        "Motion detected but not able to communicate with main server via network",
-                        phonenumbers)
-
-def triggerAlarm(alarmOn):
-    print "The alarm went off. Trigger php server and phone if configured"
+def triggerAlarm():
+    print "The alarm went off. Trigger php server"
     
     myprops = {}
     with open('settings.properties', 'r') as f:
@@ -36,16 +21,15 @@ def triggerAlarm(alarmOn):
             myprops[k] = v
     print myprops
 
-    if alarmOn and (myprops['sound'].strip() == 'true' or myprops['sms'].strip() == 'true'):
-        print "triggering android app"
-        message = "Alarm triggered. DetectorID = " + ""
-        messageToAndroidApp(myprops['sound'].strip() == 'true',
-                        myprops['sms'].strip() == 'true',
-                        message,
-                        myprops['phonenumbers'].strip())
-
-    else:
-        print "system not configured to use phone or alarm is off"
+#if alarmOn and (myprops['sound'].strip() == 'true' or myprops['sms'].strip() == 'true'):
+#        print "triggering android app"
+#        message = "Alarm triggered. DetectorID = " + ""
+#        messageToAndroidApp(myprops['sound'].strip() == 'true',
+#                        myprops['sms'].strip() == 'true',
+#                        message,
+#                        myprops['phonenumbers'].strip())
+#    else:
+#        print "system not configured to use phone or alarm is off"
 
     # trigger call to php server
     url = myprops['serverURL'].strip() + 'trigger_alarm.php?triggerID=' + myprops['detectorID'].strip()
@@ -53,15 +37,9 @@ def triggerAlarm(alarmOn):
     response = urllib2.urlopen(url)
     if not response.code == 200:
         print "ERROR! Did not get 200 response"
-        sendSMSWIFIDown(myprops['phonenumbers'].strip())
     response.close()
 
-    sys.exit()
 
-
-triggerAlarm(True)
-
-import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
 PIR_PIN = 7
@@ -75,20 +53,13 @@ def MOTION(PIR_PIN):
     print 'Motion Detected!'
     GPIO.output(LED_PIN, True)
 
-    with open('myfile.txt', 'r') as f:
-        first_line = f.readline().strip()
-        if "true" in first_line:
-            #ALARM IS ON!
-            triggerAlarm(True)
-        else:
-            triggerAlarm(False)
-
+    triggerAlarm()
+    
     time.sleep(3)
     GPIO.output(LED_PIN, False)
                
 
-print 'PIR Module Test (CTRL+C to exit)'
-time.sleep(2)
+print 'Motion detection script loaded (CTRL+C to exit)'
 print 'Ready'
 
 try:
