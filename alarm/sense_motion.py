@@ -3,6 +3,23 @@ from __future__ import with_statement
 from subprocess import call
 import time
 import sys
+import urllib2
+
+def messageToAndroidApp(sound, sms, message, phonenumbers):
+
+    #TODO: send data to php server. 
+# ANDROID APP TAKES: sound, sms, message, phonenumber.
+
+#               call(["adb","shell", "am", "force-stop", "com.tobiblas.alarmpusher"])
+#               call(["adb", "shell", "am", "start", "-a", "android.intent.action.VIEW", "-n", "com.tobiblas.alarmpusher/.MainActivity", "-e" ,"phonenumbers", "'+46760732005'", "-e", "message", "'Nämen! Nu tror jag tamigfasen att larmet gick'"])
+
+
+def sendSMSWIFIDown(phonenumbers):
+    print "TODO: send sms wifidown"
+    messageToAndroidApp(False,
+                        True,
+                        "Motion detected but not able to communicate with main server via network",
+                        phonenumbers)
 
 def triggerAlarm(alarmOn):
     print "The alarm went off. Trigger php server and phone if configured"
@@ -21,16 +38,24 @@ def triggerAlarm(alarmOn):
 
     if alarmOn and (myprops['sound'].strip() == 'true' or myprops['sms'].strip() == 'true'):
         print "triggering android app"
-    
-    #               call(["adb","shell", "am", "force-stop", "com.tobiblas.alarmpusher"])
-    #               call(["adb", "shell", "am", "start", "-a", "android.intent.action.VIEW", "-n", "com.tobiblas.alarmpusher/.MainActivity", "-e" ,"phonenumbers", "'+46760732005'", "-e", "message", "'Nämen! Nu tror jag tamigfasen att larmet gick'"])
-        #TODO: the call above
-    
+        message = "Alarm triggered. DetectorID = " + ""
+        messageToAndroidApp(myprops['sound'].strip() == 'true',
+                        myprops['sms'].strip() == 'true',
+                        message,
+                        myprops['phonenumbers'].strip())
+
     else:
         print "system not configured to use phone or alarm is off"
 
+    # trigger call to php server
+    url = myprops['serverURL'].strip() + 'trigger_alarm.php?triggerID=' + myprops['detectorID'].strip()
+    print "calling " + url
+    response = urllib2.urlopen(url)
+    if not response.code == 200:
+        print "ERROR! Did not get 200 response"
+        sendSMSWIFIDown(myprops['phonenumbers'].strip())
+    response.close()
 
-# todo trigger call to php server
     sys.exit()
 
 
