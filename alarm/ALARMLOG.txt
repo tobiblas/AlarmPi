@@ -1,12 +1,1 @@
 time#triggerid#alarm on/off
-20/01/2016 10:40:32#livingroomvvvk#On
-20/01/2016 10:41:55#livingroomvvvk#Off
-20/01/2016 10:41:55#livingroomvvvk#Off
-20/01/2016 10:42:02#livingroomvvvk#On
-20/01/2016 10:42:03#livingroomvvvk#On
-21/01/2016 04:41:30#livingroom#On
-21/01/2016 16:43:09#livingroom#On
-21/01/2016 16:43:15#livingroom#On
-26/01/2016 12:26:47#kitchen#On
-26/01/2016 12:27:05#kitchen#On
-26/01/2016 12:27:20#kitchen#Off
