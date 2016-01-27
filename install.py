@@ -60,7 +60,7 @@ if isServer:
 pathCorrect = False
 alarmPath = ""
 while pathCorrect == False:
-	alarmPath = raw_input("Enter path to alarm home folder ")
+	alarmPath = raw_input("Enter path to alarm home folder (example: /home/pi/alarm) ")
 
 	if os.path.exists(alarmPath):
 		print alarmPath + " exists." 
