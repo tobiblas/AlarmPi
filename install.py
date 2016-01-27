@@ -78,7 +78,7 @@ while pathCorrect == False:
 print "Installing alarm files in " + alarmPath
 if not alarmPath.endswith("/"):
 	alarmPath += "/"
-print subprocess.Popen("cp -R alarm " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
+print subprocess.Popen("cp -R alarm/* " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if isServer:
     print "Adding alarm home to admin.properties"
