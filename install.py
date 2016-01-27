@@ -83,6 +83,9 @@ print subprocess.Popen("cp -R alarm/* " + alarmPath, shell=True, stdout=subproce
 if isServer:
     print "Adding alarm home to admin.properties"
     print subprocess.Popen('echo "alarm_home:' + alarmPath + '" | sudo tee /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print "Making the alarm application available for the php server"
+    print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
+
 ################## PHONE ####################################
 
 #Ask user if attaching phone to pi
