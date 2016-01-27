@@ -6,11 +6,15 @@ import sys
 import urllib2
 import RPi.GPIO as GPIO
 
+location = os.environ['ALARM_HOME']
+if not location.endswith("/"):
+    location += "/"
+
 def triggerAlarm():
     print "The alarm went off. Trigger php server"
     
     myprops = {}
-    with open('settings.properties', 'r') as f:
+    with open(location + 'settings.properties', 'r') as f:
         for line in f:
             line = line.rstrip() #removes trailing whitespace and '\n' chars
             
