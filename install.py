@@ -120,7 +120,7 @@ abort = False
 with open(abs_path,'w') as new_file:
     with open('/etc/rc.local') as old_file:
         for line in old_file:
-            if "sense_motion.py" in line
+            if "sense_motion.py" in line:
                 abort = True
                 break
             if "exit 0" in line:
