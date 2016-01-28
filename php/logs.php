@@ -61,16 +61,6 @@ function swapOutParam(url, paramName, newParamValue) {
     return newUrl;
 }
 
-function menuselected2(itemselected) {
-  /*  var url = window.location.href;
-    if (url.indexOf('?') > -1){
-        url = url.substr(0, url.indexOf('?'));
-    }
-    url += '?menuitem=' + itemselected;
-    
-    window.location.href = url;*/
-}
-
 </script>
 
 
@@ -95,6 +85,7 @@ function menuselected2(itemselected) {
     $handle = fopen($alarm_path . "ALARMLOG.txt", "r");
     if ($handle) {
         $i = 1;
+        $log_rows = array();
         while (($line = fgets($handle)) !== false) {
             if ($i == 1) {
                 $i++;
@@ -110,11 +101,15 @@ function menuselected2(itemselected) {
                 
                 if (strcmp($onOrOff,'On') == 0 && strcmp($alarm_on_filter,'true') == 0 ||
                     strcmp($onOrOff,'Off') == 0 && strcmp($alarm_off_filter,'true') == 0) {
-                    echo "<div class='logrow' style='text-align: center;'>" . $time . " | DetectorID = " . $detectorID . " | AlarmStatus= " . $onOrOff . "</div>";
+                    array_push($log_rows, "<div class='logrow' style='text-align: center;'>" . $time . " | DetectorID = " . $detectorID . " | AlarmStatus= " . $onOrOff . "</div>");
                 }
                 
             }
             $i++;
+        }
+        
+        for($x = count($log_rows) - 1; $x >= 0; $x--) {
+            echo $log_rows[$x];
         }
         
         fclose($handle);
