@@ -116,17 +116,24 @@ print "Adding sense_motion.py to rc.local to start up during Pi boot."
 
 #Create temp file
 fh, abs_path = mkstemp()
+abort = False
 with open(abs_path,'w') as new_file:
     with open('/etc/rc.local') as old_file:
         for line in old_file:
+            if "sense_motion.py" in line
+                abort = True
+                break
             if "exit 0" in line:
                 new_file.write("(sleep 10;python " + alarmPath + "sense_motion.py " + "'" + alarmPath + "'" + ")&" + '\n')
             new_file.write(line)
 close(fh)
-#Remove original file
-print subprocess.Popen('sudo rm /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
-#Move new file
-print subprocess.Popen('sudo mv ' + abs_path  + ' /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
+if not abort:
+    # Remove original file
+    print subprocess.Popen('sudo rm /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
+    #  Move new file
+    print subprocess.Popen('sudo mv ' + abs_path  + ' /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
+else:
+    print subprocess.Popen('sudo rm ' + abs_path, shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ##############################################################
 
