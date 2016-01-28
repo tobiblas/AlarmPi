@@ -6,7 +6,11 @@ import sys
 import urllib2
 import RPi.GPIO as GPIO
 
-location = os.environ['ALARM_HOME']
+if len(sys.argv) != 2:
+    print "Usage: python sense_motion.py <alarm home folder>"
+    sys.exit()
+location = sys.argv[1]
+
 if not location.endswith("/"):
     location += "/"
 
