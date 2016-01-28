@@ -132,6 +132,7 @@ if not abort:
     print subprocess.Popen('sudo rm /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
     #  Move new file
     print subprocess.Popen('sudo mv ' + abs_path  + ' /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('sudo chmod 777 /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
 else:
     print subprocess.Popen('sudo rm ' + abs_path, shell=True, stdout=subprocess.PIPE).stdout.read()
 
