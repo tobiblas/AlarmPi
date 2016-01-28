@@ -123,7 +123,7 @@ with open(abs_path,'w') as new_file:
             if "sense_motion.py" in line:
                 abort = True
                 break
-            if "exit 0" in line:
+            if line.startswith("exit 0"):
                 new_file.write("(sleep 10;python " + alarmPath + "sense_motion.py " + "'" + alarmPath + "'" + ")&" + '\n')
             new_file.write(line)
 close(fh)
