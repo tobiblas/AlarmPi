@@ -51,20 +51,26 @@ function menuselected(itemselected) {
         $menuselected = 1;
     } else if ($menuitem == 2) {
         $menuselected = 2;
+    } else if ($menuitem == 3) {
+        $menuselected = 3;
     }
 ?>
 
-<div class="col-4 menu">
+<div class="col-3 menu">
     <input type="checkbox" <?php echo ($menuselected == 0 ? "checked " : "");?> onclick="menuselected(0)" class="menucheckbox" id="menucheckbox1">
 <label class="menulabel" for="menucheckbox1" <?php echo ($menuselected == 0 ? "style='background-color :#6EA53B;'" : "") ?> >Status</label>
 </div>
-<div class="col-4 menu">
+<div class="col-3 menu">
     <input type="checkbox" <?php echo ($menuselected == 1 ? "checked " : "");?> onclick="menuselected(1)" class="menucheckbox" id="menucheckbox2">
     <label class="menulabel" for="menucheckbox2" <?php echo ($menuselected == 1 ? "style='background-color :#6EA53B;'" : "") ?> >Log</label>
 </div>
-<div class="col-4 menu">
+<div class="col-3 menu">
     <input type="checkbox" <?php echo ($menuselected == 2 ? "checked " : "");?> onclick="menuselected(2)" class="menucheckbox" id="menucheckbox3">
     <label class="menulabel" for="menucheckbox3" <?php echo ($menuselected == 2 ? "style='background-color :#6EA53B;'" : "") ?> >Camera</label>
+</div>
+<div class="col-3 menu">
+<input type="checkbox" <?php echo ($menuselected == 3 ? "checked " : "");?> onclick="menuselected(3)" class="menucheckbox" id="menucheckbox4">
+<label class="menulabel" for="menucheckbox4" <?php echo ($menuselected == 3 ? "style='background-color :#6EA53B;'" : "") ?> >Settings</label>
 </div>
 
 
@@ -80,6 +86,8 @@ function menuselected(itemselected) {
         include("logs.php");
     } else if ($menuselected == 2) {
         include("camera.php");
+    } else if ($menuselected == 3) {
+        include("settings.php");
     }
 ?>
 
