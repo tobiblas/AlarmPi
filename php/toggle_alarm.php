@@ -22,6 +22,6 @@
         file_put_contents($alarm_path . 'ALARMTRIGGERED.txt', "time#triggerid".PHP_EOL , FILE_APPEND);
     } else {
         #stop application
-        shell_exec('adb shell am force-stop com.tobiblas.alarmpusher');
+        shell_exec('sudo adb shell am force-stop com.tobiblas.alarmpusher');
     }
 ?>
