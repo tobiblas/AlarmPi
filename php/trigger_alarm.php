@@ -34,6 +34,6 @@
         shell_exec('adb shell am force-stop com.tobiblas.alarmpusher');
         
         #start application
-        shell_exec('adb shell am start -a android.intent.action.VIEW -n com.tobiblas.alarmpusher/.MainActivity -e sound true -e sms false -e phonenumbers '+46760732005' -e message "Hej tobiassssss"');
+        shell_exec('adb shell am start -a android.intent.action.VIEW -n com.tobiblas.alarmpusher/.MainActivity -e sound true -e sms false -e phonenumbers "+46760732005" -e message "Hej tobiassssss"');
     }
 ?>
