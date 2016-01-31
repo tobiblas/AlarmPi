@@ -82,7 +82,7 @@ function swapOutParam(url, paramName, newParamValue) {
     
     
     
-    $handle = fopen($alarm_path . "ALARMLOG.txt", "r");
+    $handle = fopen($config['alarm_home'] . "ALARMLOG.txt", "r");
     if ($handle) {
         $i = 1;
         $log_rows = array();

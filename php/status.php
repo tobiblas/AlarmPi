@@ -5,7 +5,7 @@
 
 <?php
     include("config.php");
-    $myfile = fopen($alarm_path . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
+    $myfile = fopen($config['alarm_home'] . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
     $fileline = fgets($myfile);
     fclose($myfile);
     $alarm_on = false;
@@ -39,7 +39,7 @@
     
     if ($alarm_on) {
     
-        $handle = fopen($alarm_path . "ALARMTRIGGERED.txt", "r");
+        $handle = fopen($config['alarm_home'] . "ALARMTRIGGERED.txt", "r");
         if ($handle) {
             $i = 1;
             while (($line = fgets($handle)) !== false) {

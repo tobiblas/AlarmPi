@@ -37,7 +37,19 @@ function setProperty(property, value)
     <div id="setting">
         Phonenumbers to sms when alarm triggers (separate with ';') <input type="text" id="phonenumbertext"
 onkeydown="if (event.keyCode == 13) setProperty('phoneNumbers', '' + document.getElementById('phonenumbertext').value)" ><br>
+    </div>
 
+    <div id="setting">
+    <input id="mailcheckbox" type="checkbox" onchange="setProperty('mail', '' + document.getElementById('mailcheckbox').checked)"> Send mail when alarm triggers<br>
+    </div>
+
+    <div id="setting">
+Mail addresses to email when alarm triggers (separate with ';') <input type="text" id="emailstext"
+onkeydown="if (event.keyCode == 13) setProperty('emails', '' + document.getElementById('emailstext').value)" ><br>
+    </div>
+
+    <div id="setting">
+    <input id="logwhenoffcheckbox" type="checkbox" onchange="setProperty('logwhenoff', '' + document.getElementById('logwhenoffcheckbox').checked)"> Log also when alarm is off<br>
     </div>
 
 </div>

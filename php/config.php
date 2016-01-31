@@ -1,6 +1,18 @@
 <?php
-    $myfile = fopen("admin.properties", "r") or die("Unable to open file!");
-    $fileline = fgets($myfile);
-    fclose($myfile);
-    $alarm_path = trim(substr($fileline, strpos($fileline, ":") + 1));
+    
+    $config = array();
+
+    $file_handle = fopen("admin.properties", "r");
+    while (!feof($file_handle)) {
+        $line = fgets($file_handle);
+        
+        $row_data = explode(':', $line);
+        
+        $key = trim($row_data[0]);
+        $value = trim($row_data[1]);
+        
+        $config[$key] = $value;
+
+    }
+    fclose($file_handle);
 ?>

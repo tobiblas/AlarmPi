@@ -1,6 +1,6 @@
 <?php
     include("config.php");
-    $myfile = fopen($alarm_path . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
+    $myfile = fopen($config['alarm_home'] . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
     $fileline = fgets($myfile);
     fclose($myfile);
     $alarm_on = false;
@@ -9,7 +9,7 @@
         $alarm_on = true;
     }
     
-    $file = fopen($alarm_path . 'ALARMSTATUS.txt',"w");
+    $file = fopen($config['alarm_home'] . 'ALARMSTATUS.txt',"w");
     if ($alarm_on) {
         fwrite($file,'ALARM_ON: false');
     } else {
@@ -18,8 +18,8 @@
     fclose($file);
     
     if ($alarm_on == false) {
-        file_put_contents($alarm_path . "ALARMTRIGGERED.txt", "");
-        file_put_contents($alarm_path . 'ALARMTRIGGERED.txt', "time#triggerid".PHP_EOL , FILE_APPEND);
+        file_put_contents($config['alarm_home'] . "ALARMTRIGGERED.txt", "");
+        file_put_contents($config['alarm_home'] . 'ALARMTRIGGERED.txt', "time#triggerid".PHP_EOL , FILE_APPEND);
     } else {
         #stop application
         shell_exec('sudo adb shell am force-stop com.tobiblas.alarmpusher');

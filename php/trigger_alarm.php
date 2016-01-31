@@ -2,7 +2,7 @@
     $triggerID = $_GET['triggerID'];
     include("config.php");
 
-    $alarmstriggered = file_get_contents($alarm_path . "ALARMTRIGGERED.txt");
+    $alarmstriggered = file_get_contents($config['alarm_home'] . "ALARMTRIGGERED.txt");
     date_default_timezone_set('Europe/Stockholm');
     $date = date('d/m/Y H:i:s', time());
     $txt = $date . "#" . ($triggerID);
@@ -10,10 +10,10 @@
     if (strpos($alarmstriggered,$triggerID) !== false) {
         //do nothing
     } else {
-        file_put_contents($alarm_path . 'ALARMTRIGGERED.txt', $txt.PHP_EOL , FILE_APPEND);
+        file_put_contents($config['alarm_home'] . 'ALARMTRIGGERED.txt', $txt.PHP_EOL , FILE_APPEND);
     }
     
-    $myfile = fopen($alarm_path . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
+    $myfile = fopen($config['alarm_home'] . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
     $fileline = fgets($myfile);
     fclose($myfile);
     $alarm_on = false;
@@ -25,7 +25,7 @@
          $txt = $txt . '#' . 'Off';
     }
     
-    file_put_contents($alarm_path . 'ALARMLOG.txt', $txt.PHP_EOL , FILE_APPEND);
+    file_put_contents($config['alarm_home'] . 'ALARMLOG.txt', $txt.PHP_EOL , FILE_APPEND);
     
     if ($alarm_on) {
         #Check properties for sms, phonenumber, sound and pass parameters to below:
