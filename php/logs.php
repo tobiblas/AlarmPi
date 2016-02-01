@@ -79,44 +79,56 @@ function swapOutParam(url, paramName, newParamValue) {
 <div id="logarea">
 
 <?php
+    $myfile = fopen($config['alarm_home'] . "ALARMSTATUS.txt", "r") or die("Unable to open file!");
+    $fileline = fgets($myfile);
+    fclose($myfile);
+    $alarm_on = false;
     
-    
-    
-    $handle = fopen($config['alarm_home'] . "ALARMLOG.txt", "r");
-    if ($handle) {
-        $i = 1;
-        $log_rows = array();
-        while (($line = fgets($handle)) !== false) {
-            if ($i == 1) {
-                $i++;
-                continue;
-            } else {
-                
-                $pieces = explode("#", $line);
-                $time = $pieces[0];
-                $detectorID = $pieces[1];
-                $onOrOff = trim($pieces[2]);
-                
-                #                echo "[$onOrOff][$alarm_on_filter]";
-                
-                if (strcmp($onOrOff,'On') == 0 && strcmp($alarm_on_filter,'true') == 0 ||
-                    strcmp($onOrOff,'Off') == 0 && strcmp($alarm_off_filter,'true') == 0) {
-                    array_push($log_rows, "<div class='logrow' style='text-align: center;'>" . $time . " | DetectorID = " . $detectorID . " | AlarmStatus= " . $onOrOff . "</div>");
-                }
-                
-            }
-            $i++;
-        }
-        
-        for($x = count($log_rows) - 1; $x >= 0; $x--) {
-            echo $log_rows[$x];
-        }
-        
-        fclose($handle);
-    } else {
-        echo "unable to open ALARMLOG.txt";
+    if (strpos($fileline,'true') !== false) {
+        $alarm_on = true;
     }
-
+    
+    $logwhenoff = 'true';
+    if ($config['logwhenoff'] != null) {
+        $logwhenoff = $config['logwhenoff'];
+    }
+    
+    if ($alarm_on == true || $logwhenoff == 'true') {
+        $handle = fopen($config['alarm_home'] . "ALARMLOG.txt", "r");
+        if ($handle) {
+            $i = 1;
+            $log_rows = array();
+            while (($line = fgets($handle)) !== false) {
+                if ($i == 1) {
+                    $i++;
+                    continue;
+                } else {
+                    
+                    $pieces = explode("#", $line);
+                    $time = $pieces[0];
+                    $detectorID = $pieces[1];
+                    $onOrOff = trim($pieces[2]);
+                    
+                    #                echo "[$onOrOff][$alarm_on_filter]";
+                    
+                    if (strcmp($onOrOff,'On') == 0 && strcmp($alarm_on_filter,'true') == 0 ||
+                        strcmp($onOrOff,'Off') == 0 && strcmp($alarm_off_filter,'true') == 0) {
+                        array_push($log_rows, "<div class='logrow' style='text-align: center;'>" . $time . " | DetectorID = " . $detectorID . " | AlarmStatus= " . $onOrOff . "</div>");
+                    }
+                    
+                }
+                $i++;
+            }
+            
+            for($x = count($log_rows) - 1; $x >= 0; $x--) {
+                echo $log_rows[$x];
+            }
+            
+            fclose($handle);
+        } else {
+            echo "unable to open ALARMLOG.txt";
+        }
+    }
     
     
     
