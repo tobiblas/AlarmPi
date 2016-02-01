@@ -38,7 +38,7 @@
             $emails = explode(';', $config['emails']);
             foreach($emails as $address) {
                 $address = trim($address);
-                shell_exec('echo "' . $subject . '" | mail -s "' . $content . '" ' . $address);
+                shell_exec('echo "' . $content . '" | mail -s "' . $subject . '" ' . $address);
             }
         }
         
