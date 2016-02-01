@@ -54,6 +54,16 @@ onkeydown="if (event.keyCode == 13) setProperty('emails', '' + document.getEleme
     <input id="logwhenoffcheckbox" <?php if ($config['logwhenoff'] == 'true' || $config['logwhenoff'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('logwhenoff', '' + document.getElementById('logwhenoffcheckbox').checked)"> Log also when alarm is off<br>
     </div>
 
+    <div id="setting">
+External IP to alarm central (Example: 74.99.99.99) <br/><input type="text" id="externalIPText" value=<?php if ($config['externalIP'] != NULL) { echo '"' . $config['externalIP'] . '"';} else { echo '""';} ?>
+    onkeydown="if (event.keyCode == 13) setProperty('externalIP', '' + document.getElementById('externalIPText').value)" ><br>
+    </div>
+
+    <div id="setting">
+    Path to alarm home folder (default is /home/pi/alarm) <br/><input type="text" id="alarmHomeText" value=<?php if ($config['alarm_home'] != NULL) { echo '"' . $config['alarm_home'] . '"';} else { echo '""';} ?>
+    onkeydown="if (event.keyCode == 13) setProperty('alarm_home', '' + document.getElementById('alarmHomeText').value)" ><br>
+    </div>
+
 </div>
 
 </div>

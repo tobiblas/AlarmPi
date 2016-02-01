@@ -33,7 +33,7 @@
         $external = $config['externalIP'];
         $content = "Check alarm status here: http://" . trim($external) . "/alarm";
         
-        if ($config['mail'] == 'true') {
+        if ($config['mail'] == null || $config['mail'] == 'true') {
             
             $emails = explode(';', $config['emails']);
             foreach($emails as $address) {
