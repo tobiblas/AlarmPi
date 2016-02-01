@@ -61,23 +61,7 @@ if isServer:
     print "-----------"
 
 #################ALARM FILES, CONFIG ETC######################
-pathCorrect = False
-alarmPath = ""
-while pathCorrect == False:
-	alarmPath = raw_input("Enter path to alarm home folder (example: /home/pi/alarm) ")
-
-	if os.path.exists(alarmPath):
-		print alarmPath + " exists." 
-		if not os.path.isdir(alarmPath):
-			print alarmPath + " is a file. Please enter an existing folder or a folder you want to create."
-			continue
-		else:
-			pathCorrect = True
-	else:
-		#create the path.
-		print "creating folders for " + alarmPath
-		print subprocess.Popen("mkdir -p " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
-		pathCorrect = True
+alarmPath = "/home/pi/alarm"
 
 print "Installing alarm files in " + alarmPath
 if not alarmPath.endswith("/"):
