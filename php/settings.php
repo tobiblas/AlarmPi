@@ -2,7 +2,7 @@
 <script>
 function setProperty(property, value)
 {
-    /*var xmlHttp = new XMLHttpRequest();
+    var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4) {
             if ( xmlHttp.status != 200) {
@@ -12,13 +12,15 @@ function setProperty(property, value)
             window.location.href = window.location.href;
         }
     }
-    xmlHttp.open("POST", "setting.php?" property + "=" + value, true); // true for asynchronous
-    xmlHttp.send(null);*/
-    alert (property + "=" + value);
-    window.location.href = window.location.href;
+    xmlHttp.open("GET", "change_setting.php?key=" + property + "&value=" + encodeURIComponent(value), true); // true for asynchronous
+    xmlHttp.send(null);
 }
 
 </script>
+
+<?php
+include("config.php");
+?>
 
 
 <div class="row">
@@ -27,29 +29,29 @@ function setProperty(property, value)
 <div id="settings">
 
     <div id="setting">
-        <input id="soundcheckbox" type="checkbox" onchange="setProperty('sound', '' + document.getElementById('soundcheckbox').checked)"> Sound when alarm triggers<br>
+<input id="soundcheckbox" <?php if ($config['sound'] == 'true' || $config['sound'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('sound', '' + document.getElementById('soundcheckbox').checked)"> Sound when alarm triggers<br>
     </div>
 
     <div id="setting">
-        <input id="smscheckbox" type="checkbox" onchange="setProperty('sms', '' + document.getElementById('smscheckbox').checked)"> Send sms when alarm triggers<br>
+        <input id="smscheckbox" <?php if ($config['sms'] == 'true' || $config['sms'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('sms', '' + document.getElementById('smscheckbox').checked)"> Send sms when alarm triggers<br>
     </div>
 
     <div id="setting">
-        Phonenumbers to sms when alarm triggers (separate with ';') <input type="text" id="phonenumbertext"
+Phonenumbers to sms when alarm triggers. Separate numbers with ';'. Example: +46760999999 <br/><input type="text" id="phonenumbertext" value=<?php if ($config['phoneNumbers'] != NULL) { echo '"' . $config['phoneNumbers'] . '"';} else { echo '""';} ?>
 onkeydown="if (event.keyCode == 13) setProperty('phoneNumbers', '' + document.getElementById('phonenumbertext').value)" ><br>
     </div>
 
     <div id="setting">
-    <input id="mailcheckbox" type="checkbox" onchange="setProperty('mail', '' + document.getElementById('mailcheckbox').checked)"> Send mail when alarm triggers<br>
+    <input id="mailcheckbox" <?php if ($config['mail'] == 'true' || $config['mail'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('mail', '' + document.getElementById('mailcheckbox').checked)"> Send mail when alarm triggers<br>
     </div>
 
     <div id="setting">
-Mail addresses to email when alarm triggers (separate with ';') <input type="text" id="emailstext"
+Mail addresses to email when alarm triggers (separate with ';') <br/><input type="text" id="emailstext" value=<?php if ($config['emails'] != NULL) { echo '"' . $config['emails'] . '"';} else { echo '""';} ?>
 onkeydown="if (event.keyCode == 13) setProperty('emails', '' + document.getElementById('emailstext').value)" ><br>
     </div>
 
     <div id="setting">
-    <input id="logwhenoffcheckbox" type="checkbox" onchange="setProperty('logwhenoff', '' + document.getElementById('logwhenoffcheckbox').checked)"> Log also when alarm is off<br>
+    <input id="logwhenoffcheckbox" <?php if ($config['logwhenoff'] == 'true' || $config['logwhenoff'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('logwhenoff', '' + document.getElementById('logwhenoffcheckbox').checked)"> Log also when alarm is off<br>
     </div>
 
 </div>
