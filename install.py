@@ -113,7 +113,7 @@ if phoneConnected:
     print subprocess.Popen('git clone https://github.com/tobiblas/AlarmPiAlarmPusherAndroid', shell=True, stdout=subprocess.PIPE).stdout.read()
     raw_input("Make sure your phone is connected with usb and then press enter. ")
     print "Installing alarm application on phone"
-    print subprocess.Popen('adb install -r AlarmPiAlarmPusherAndroid/bin/AlarmPusher.apk', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('sudo adb install -r AlarmPiAlarmPusherAndroid/bin/AlarmPusher.apk', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ######### rc.local MAKE SENSE MOTION SCRIPT START AT BOOT ####
 
