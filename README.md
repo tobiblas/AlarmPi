@@ -12,4 +12,4 @@ They MUST also be connected to a local network.
 They MAY have a pi camera attached.
 The master unit MAY also be connected to an Android phone via USB which will send SMS, make sound and detect power outages.
 
-At http://<IP OF YOUR MASTER UNIT>/alarm you can turn the alarm on/off, see the alarm log, see camera images (optional) and change system settings.
+At http://\<IP OF YOUR MASTER UNIT\>/alarm you can turn the alarm on/off, see the alarm log, see camera images (optional) and change system settings.
