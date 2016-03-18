@@ -129,4 +129,4 @@ else:
 ##############################################################
 
 print
-print "Congratulation! Now go to " + alarmPath + "settings.properties and fill in the necessary data. If this is not the main brain Pi in your alarm system all you need to enter is the server IP for the main Pi and the detector id."
+print "Congratulation! Now go to " + alarmPath + "settings.properties and fill in the necessary data."
