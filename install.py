@@ -4,6 +4,22 @@ from tempfile import mkstemp
 from shutil import move
 from os import remove, close
 
+######### CHECK IF UPGRADED ###############
+updateToLatest = False
+inputCorrect = False
+while inputCorrect == False:
+    update = raw_input("Do you want to upgrade Raspbian to latest update (might take up to an hour? (Y/n). ")
+    if update == 'Y' or update == 'y' or update == '':
+        updateToLatest = True
+        inputCorrect = True
+    elif update == 'N' or update == 'n':
+        print "NOT checking for updates."
+        inputCorrect = True
+    else:
+        print "Please enter valid input 'y' or 'n'."
+if updateToLatest:
+    print "Checking for new updates..."
+    print subprocess.Popen("sudo apt-get update & sudo apt-get dist-upgrade -y", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ######### CHECK IF THIS PI SHOULD HAVE SERVER ###############
 isServer = False
