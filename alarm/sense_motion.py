@@ -17,10 +17,9 @@ if not location.endswith("/"):
 
 def triggerPiezo():
     c = 0
-    lastPrint = 0
     start = int(round(time.time() * 1000))
-    print start
-    while 1:
+    t_end = time.time() + 60
+    while time.time() < t_end:
         c = c + 1
         time.sleep(.0000005*c)
         GPIO.output(BUZZER_PIN, True)
@@ -28,9 +27,7 @@ def triggerPiezo():
         GPIO.output(BUZZER_PIN, False)
         t = int(round(time.time() * 1000))
         if (t - start) / 200 != lastPrint:
-            lastPrint = (t - start) / 200 
             c = 0
-            #print "f is " + str( (c / float(lastPrint))/10)
 
 def triggerAlarm():
     print "The alarm went off. Trigger php server"
