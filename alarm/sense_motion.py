@@ -15,7 +15,12 @@ location = sys.argv[1]
 if not location.endswith("/"):
     location += "/"
 
+buzzerOn = False
+
 def triggerPiezo():
+    if buzzerOn:
+        return
+    buzzerOn = True
     c = 0
     frequencyModder = 0
     start = int(round(time.time() * 1000))
@@ -30,6 +35,7 @@ def triggerPiezo():
         if (t - start) / 200 != frequencyModder:
             frequencyModder = (t - start) / 200
             c = 0
+    buzzerOn = False
 
 def triggerAlarm():
     print "The alarm went off. Trigger php server"
