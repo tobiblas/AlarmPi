@@ -78,6 +78,8 @@ LED_PIN = 23
 GPIO.setup(PIR_PIN, GPIO.IN)
 GPIO.setup(LED_PIN, GPIO.OUT)
 GPIO.output(LED_PIN, False)
+GPIO.setup(BUZZER_PIN, GPIO.OUT)
+GPIO.output(BUZZER_PIN, False)
 
 
 def MOTION(PIR_PIN):
