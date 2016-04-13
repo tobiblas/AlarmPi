@@ -17,6 +17,7 @@ if not location.endswith("/"):
 
 def triggerPiezo():
     c = 0
+    frequencyModder = 0
     start = int(round(time.time() * 1000))
     t_end = time.time() + 60
     while time.time() < t_end:
@@ -26,7 +27,8 @@ def triggerPiezo():
         time.sleep(.0000005*c)
         GPIO.output(BUZZER_PIN, False)
         t = int(round(time.time() * 1000))
-        if (t - start) / 200 != lastPrint:
+        if (t - start) / 200 != frequencyModder:
+            frequencyModder = (t - start) / 200
             c = 0
 
 def triggerAlarm():
