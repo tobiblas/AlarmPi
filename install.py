@@ -80,6 +80,7 @@ if isServer:
 alarmPath = "/home/pi/alarm"
 
 print "Installing alarm files in " + alarmPath
+print subprocess.Popen("mkdir -p " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 if not alarmPath.endswith("/"):
 	alarmPath += "/"
 print subprocess.Popen("cp -R alarm/* " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
