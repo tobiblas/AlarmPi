@@ -18,6 +18,7 @@ if not location.endswith("/"):
 buzzerOn = False
 
 def triggerPiezo():
+    global buzzerOn
     if buzzerOn:
         return
     buzzerOn = True
