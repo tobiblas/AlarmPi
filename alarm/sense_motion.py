@@ -4,6 +4,7 @@ from subprocess import call
 import time
 import sys
 import urllib2
+import threading
 import RPi.GPIO as GPIO
 
 if len(sys.argv) != 2:
@@ -13,6 +14,23 @@ location = sys.argv[1]
 
 if not location.endswith("/"):
     location += "/"
+
+def triggerPiezo():
+    c = 0
+    lastPrint = 0
+    start = int(round(time.time() * 1000))
+    print start
+    while 1:
+        c = c + 1
+        time.sleep(.0000005*c)
+        GPIO.output(BUZZER_PIN, True)
+        time.sleep(.0000005*c)
+        GPIO.output(BUZZER_PIN, False)
+        t = int(round(time.time() * 1000))
+        if (t - start) / 200 != lastPrint:
+            lastPrint = (t - start) / 200 
+            c = 0
+            #print "f is " + str( (c / float(lastPrint))/10)
 
 def triggerAlarm():
     print "The alarm went off. Trigger php server"
@@ -45,13 +63,18 @@ def triggerAlarm():
     response = urllib2.urlopen(url)
     if not response.code == 200:
         print "ERROR! Did not get 200 response"
+    else:
+        body = response.read()
+        if "ALARMON" in body:
+            piezo_thread = threading.Thread(target=triggerPiezo)
+            piezo_thread.start()
     response.close()
-
 
 
 GPIO.setmode(GPIO.BCM)
 PIR_PIN = 7
-LED_PIN = 8
+BUZZER_PIN = 8
+LED_PIN = 23
 GPIO.setup(PIR_PIN, GPIO.IN)
 GPIO.setup(LED_PIN, GPIO.OUT)
 GPIO.output(LED_PIN, False)
@@ -60,9 +83,7 @@ GPIO.output(LED_PIN, False)
 def MOTION(PIR_PIN):
     print 'Motion Detected!'
     GPIO.output(LED_PIN, True)
-
     triggerAlarm()
-    
     time.sleep(3)
     GPIO.output(LED_PIN, False)
                

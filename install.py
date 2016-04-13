@@ -44,7 +44,7 @@ if isServer:
     apache2path = subprocess.Popen("which apache2", shell=True, stdout=subprocess.PIPE).stdout.read()
 
     if "apache2" not in apache2path:
-        print "installing apache web server."
+        print "installing apache web server (might take a while..)"
         print subprocess.Popen("sudo apt-get install apache2 -y", shell=True, stdout=subprocess.PIPE).stdout.read()
     else:
         print "apache already installed. Skipping"
@@ -59,7 +59,7 @@ if isServer:
     phpPath = subprocess.Popen("which php", shell=True, stdout=subprocess.PIPE).stdout.read()
 
     if "php" not in phpPath:
-        print "installing php."
+        print "installing php  (might take a while..)"
         print subprocess.Popen("sudo apt-get install php5 libapache2-mod-php5 -y", shell=True, stdout=subprocess.PIPE).stdout.read()
     else:
         print "php already installed. Skipping"
