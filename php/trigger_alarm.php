@@ -1,4 +1,7 @@
 <?php
+    
+    #THIS FILE IS CALLED ON THE MASTER PI UNIT (ALARM CENTRAL)
+    
     $triggerID = $_GET['triggerID'];
     include("config.php");
 
@@ -25,11 +28,16 @@
          $txt = $txt . '#' . 'Off';
     }
     
-    file_put_contents($config['alarm_home'] . 'ALARMLOG.txt', $txt.PHP_EOL , FILE_APPEND);
+    $log_when_off = $config['logwhenoff'] == 'true' || $config['logwhenoff'] == NULL;
+    
+    if ($log_when_off || $alarm_on) {
+        file_put_contents($config['alarm_home'] . 'ALARMLOG.txt', $txt.PHP_EOL , FILE_APPEND);
+    }
+    
     
     if ($alarm_on) {
         
-        $subject = "Alarm when off. Detector: " . $triggerID;
+        $subject = "Alarm when on. Detector: " . $triggerID;
         $external = $config['externalIP'];
         $content = "Check alarm status here: http://" . trim($external) . "/alarm";
         
