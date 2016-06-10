@@ -92,6 +92,13 @@ if isServer:
     print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
 
+################## ADD TO CRONTAB ###########################
+print "Adding to crontab so that network stays up."
+print subprocess.Popen('* * * * * ping 8.8.8.8 -c 1 > /dev/null 2>&1', shell=True, stdout=subprocess.PIPE).stdout.read()
+
+print "Adding to crontab so that logs are truncated."
+print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+
 ################## PHONE ####################################
 
 #Ask user if attaching phone to pi
