@@ -85,11 +85,6 @@ function swapOutParam(url, paramName, newParamValue) {
         $i = 1;
         $log_rows = array();
         while (($line = fgets($handle)) !== false) {
-            if ($i == 1) {
-                $i++;
-                continue;
-            } else {
-                    
                 $pieces = explode("#", $line);
                 $time = $pieces[0];
                 $detectorID = $pieces[1];
@@ -101,8 +96,6 @@ function swapOutParam(url, paramName, newParamValue) {
                     strcmp($onOrOff,'Off') == 0 && strcmp($alarm_off_filter,'true') == 0) {
                     array_push($log_rows, "<div class='logrow' style='text-align: center;'>" . $time . " | DetectorID = " . $detectorID . " | AlarmStatus= " . $onOrOff . "</div>");
                 }
-                    
-            }
             $i++;
         }
             
