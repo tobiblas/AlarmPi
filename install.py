@@ -94,10 +94,11 @@ if isServer:
 
 ################## ADD TO CRONTAB ###########################
 print "Adding to crontab so that network stays up."
-print subprocess.Popen('* * * * * ping 8.8.8.8 -c 1 > /dev/null 2>&1', shell=True, stdout=subprocess.PIPE).stdout.read()
+print subprocess.Popen('(crontab -l 2>/dev/null; echo "* * * * * ping 8.8.8.8 -c 1 > /dev/null 2>&1") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
 
-print "Adding to crontab so that logs are truncated."
-print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+if isServer:
+    print "Adding to crontab so that logs are truncated."
+    print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ################## PHONE ####################################
 
