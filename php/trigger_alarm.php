@@ -66,7 +66,11 @@
         $message = $subject . '\n' . $content;
         #start application
         shell_exec('sudo adb shell am start -a android.intent.action.VIEW -n com.tobiblas.alarmpusher/.MainActivity -e sound ' . $sound . ' -e sms ' . $sms . ' -e phonenumbers "' . $phoneNumbers . '" -e message "Hej tobiassssss"');
-        echo "ALARMON";
+        if ( $config['sound'] == 'false') {
+            echo "SOUNDOFF";
+        } else {
+            echo "ALARMON";
+        }
     } else {
         echo "ALARMOFF";
     }
