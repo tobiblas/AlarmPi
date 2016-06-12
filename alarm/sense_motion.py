@@ -7,13 +7,7 @@ import urllib2
 import threading
 import RPi.GPIO as GPIO
 
-if len(sys.argv) != 2:
-    print "Usage: python sense_motion.py <alarm home folder>"
-    sys.exit()
-location = sys.argv[1]
-
-if not location.endswith("/"):
-    location += "/"
+location = "/home/pi/alarm/"
 
 buzzerOn = False
 
