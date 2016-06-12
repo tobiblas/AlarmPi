@@ -100,30 +100,6 @@ if isServer:
     print "Adding to crontab so that logs are truncated."
     print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
 
-################## PHONE ####################################
-
-#Ask user if attaching phone to pi
-phoneConnected = False
-inputCorrect = False
-while inputCorrect == False:
-    phone = raw_input("Should this Raspberry Pi use an Android Phone as part of the system (sending alarm sms, taking pictures)? (Y/n). ")
-    if phone == 'Y' or phone == 'y' or phone == '':
-        print "you have chosen to have a phone connected to this Pi."
-        phoneConnected = True
-        inputCorrect = True
-    elif phone == 'N' or phone == 'n':
-        print "you have chosen NOT to have a phone connected to this Pi."
-        inputCorrect = True
-    else:
-        print "Please enter valid input 'y' or 'n'."
-
-if phoneConnected:
-    print subprocess.Popen('sudo apt-get install adb-tools-android', shell=True, stdout=subprocess.PIPE).stdout.read()
-    print "fetching AlarmPiAlarmPusherAndroid from github"
-    print subprocess.Popen('git clone https://github.com/tobiblas/AlarmPiAlarmPusherAndroid', shell=True, stdout=subprocess.PIPE).stdout.read()
-    raw_input("Make sure your phone is connected with usb and then press enter. ")
-    print "Installing alarm application on phone"
-    print subprocess.Popen('sudo adb install -r AlarmPiAlarmPusherAndroid/bin/AlarmPusher.apk', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ######### rc.local MAKE SENSE MOTION SCRIPT START AT BOOT ####
 
