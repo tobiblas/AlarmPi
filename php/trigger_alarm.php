@@ -37,7 +37,7 @@
     
     if ($alarm_on) {
         
-        $subject = "Alarm when on. Detector: " . $triggerID;
+        $subject = "ALARM TRIGGERED. Detector: " . $triggerID;
         $external = $config['externalIP'];
         $content = "Check alarm status here: http://" . trim($external) . "/alarm";
         
