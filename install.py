@@ -91,6 +91,7 @@ if isServer:
     print "Making the alarm application available for the php server"
     print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ################## ADD TO CRONTAB ###########################
 print "Adding to crontab so that network stays up."
