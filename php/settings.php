@@ -16,6 +16,26 @@ function setProperty(property, value)
     xmlHttp.send(null);
 }
 
+function newCronRow() {
+    var cron = prompt("Enter new row to be added to cron", "");
+    
+    if (cron != null) {
+        document.getElementById("croncode").innerHTML = document.getElementById("croncode").innerHTML + cron + "<br/>";
+    }
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4) {
+            if ( xmlHttp.status != 200) {
+                alert("Failed to add to cron");
+            }
+            //alert (xmlHttp.responseText);
+            //window.location.href = window.location.href;
+        }
+    }
+    xmlHttp.open("GET", "add_to_cron.php?value=" + encodeURIComponent(cron), true); // true for asynchronous
+    xmlHttp.send(null);
+}
+
 </script>
 
 <?php
@@ -60,12 +80,13 @@ External IP to alarm central (Example: 74.99.99.99) <br/><input type="text" id="
     </div>
 
     <div id="setting">
-Current corntab: <br/>
-    <div class="code">
+Current crontab (updates every minute): <br/>
+    <div class="code" id="croncode">
     <?php
         include("getCron.php");
     ?></div>
 <br>
+<button onclick="newCronRow()">Add to cron</button>
     </div>
 </div>
 
