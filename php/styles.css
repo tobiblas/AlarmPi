@@ -87,6 +87,10 @@ hr {
     box-sizing: border-box;
 }
 
+.code {
+    font-size: 14px; color: black; font-family: "Courier New", Courier, monospace;
+}
+
 .logrow {
     font-size: 14px; color: black; font-family: "Courier New", Courier, monospace;
 }

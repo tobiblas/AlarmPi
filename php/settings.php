@@ -60,13 +60,17 @@ External IP to alarm central (Example: 74.99.99.99) <br/><input type="text" id="
     </div>
 
     <div id="setting">
-    Path to alarm home folder (default is /home/pi/alarm) <br/><input type="text" id="alarmHomeText" value=<?php if ($config['alarm_home'] != NULL) { echo '"' . $config['alarm_home'] . '"';} else { echo '""';} ?>
-    onkeydown="if (event.keyCode == 13) setProperty('alarm_home', '' + document.getElementById('alarmHomeText').value)" ><br>
+Current corntab: <br/>
+    <div class="code">
+    <?php
+        include("getCron.php");
+    ?></div>
+<br>
     </div>
-
 </div>
 
 </div>
 
 </div>
+
 
