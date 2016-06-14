@@ -12,9 +12,9 @@
     }
     
     if ($enable == "false") {
-        $alarm_on = false;
-    } else if ($enable == "true") {
         $alarm_on = true;
+    } else if ($enable == "true") {
+        $alarm_on = false;
     }
     
     $file = fopen($config['alarm_home'] . 'ALARMSTATUS.txt',"w");
@@ -28,5 +28,5 @@
     if ($alarm_on == false) {
         file_put_contents($config['alarm_home'] . "ALARMTRIGGERED.txt", "");
         file_put_contents($config['alarm_home'] . 'ALARMTRIGGERED.txt', "time#triggerid".PHP_EOL , FILE_APPEND);
-    } 
+    }
 ?>
