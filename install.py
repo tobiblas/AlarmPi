@@ -120,7 +120,7 @@ if isServer:
     print "Copying crontab to crontab.txt"
     print subprocess.Popen('crontab -u pi -l > /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
-Testa detta. Ta bort cron script på raspberry som gör ny cron och ändra till nåt annat
+
 ######### rc.local MAKE SENSE MOTION SCRIPT START AT BOOT ####
 
 print "Adding sense_motion.py to rc.local to start up during Pi boot."
