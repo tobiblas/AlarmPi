@@ -95,14 +95,32 @@ if isServer:
     print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/newcronrows.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ################## ADD TO CRONTAB ###########################
-print "Adding to crontab so that network stays up."
-print subprocess.Popen('(crontab -l 2>/dev/null; echo "* * * * * ping 8.8.8.8 -c 1 > /dev/null 2>&1") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+
+addToCrontab = False
+inputCorrect = False
+while inputCorrect == False:
+    addToCron = raw_input("Add useful stuff to crontab (enter 'n' if you have run this install script before)? (Y/n). ")
+    if addToCron == 'Y' or addToCron == 'y' or addToCron == '':
+        addToCrontab = True
+        inputCorrect = True
+    elif addToCron == 'N' or addToCron == 'n':
+        inputCorrect = True
+    else:
+        print "Please enter valid input 'y' or 'n'."
+
+if addToCrontab:
+    print "Adding to crontab so that network stays up."
+    print subprocess.Popen('(crontab -l 2>/dev/null; echo "* * * * * ping 8.8.8.8 -c 1 > /dev/null 2>&1") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+
+    if isServer:
+        print "Adding to crontab so that logs are truncated."
+        print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if isServer:
-    print "Adding to crontab so that logs are truncated."
-    print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print "Copying crontab to crontab.txt"
+    print subprocess.Popen('crontab -u pi -l > /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
-
+Testa detta. Ta bort cron script på raspberry som gör ny cron och ändra till nåt annat
 ######### rc.local MAKE SENSE MOTION SCRIPT START AT BOOT ####
 
 print "Adding sense_motion.py to rc.local to start up during Pi boot."

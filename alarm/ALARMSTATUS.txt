@@ -1,1 +1,1 @@
-ALARM_ON: true
+ALARM_ON: false

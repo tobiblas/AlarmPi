@@ -82,11 +82,15 @@ External IP to alarm central (Example: 74.99.99.99) <br/><input type="text" id="
     <div id="setting">
 Current crontab (updates every minute): <br/>
     <div class="code" id="croncode">
-    <?php
-        include("getCron.php");
-    ?></div>
+
+<textarea rows="10" cols="50">
+<?php
+    include("getCron.php");
+    ?>
+</textarea>
+</div>
 <br>
-<button onclick="newCronRow()">Add to cron</button>
+<button onclick="saveCron()">Save crontab</button>
     </div>
 </div>
 
