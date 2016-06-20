@@ -1,5 +1,8 @@
 <?php
     $out = array();
     $command = 'cat crontab.txt';
-    echo exec($command . ' 2>&1');
+    exec($command . ' 2>&1', $out);
+    foreach($out as $line) {
+        echo $line . PHP_EOL;
+    }
 ?>
