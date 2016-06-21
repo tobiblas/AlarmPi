@@ -6,7 +6,7 @@
     while (!feof($file_handle)) {
         $line = fgets($file_handle);
         
-        $row_data = explode(':', $line);
+        $row_data = explode(':', $line, 2);
         
         $key = trim($row_data[0]);
         $value = trim($row_data[1]);
