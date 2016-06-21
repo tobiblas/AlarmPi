@@ -69,21 +69,53 @@ if isServer:
 ################# MOVE PHP PAGE TO RIGHT PLACE ###############
 
 if isServer:
+    
+    overwrite = False
+    inputCorrect = False
+    while inputCorrect == False:
+        overwriteInput = raw_input("Overwrite current config if any (enter 'n' if you have run this install script before)? (Y/n). ")
+        if overwriteInput == 'Y' or overwriteInput == 'y' or overwriteInput == '':
+            overwrite = True
+            inputCorrect = True
+        elif overwriteInput == 'N' or overwriteInput == 'n':
+            inputCorrect = True
+        else:
+            print "Please enter valid input 'y' or 'n'."
+
     print "adding php admin page for alarm."
     print "installing php pages in /var/www/html/"
 
-    print subprocess.Popen("sudo mkdir -p /var/www/html/alarm && sudo cp -R php/* /var/www/html/alarm", shell=True, stdout=subprocess.PIPE).stdout.read()
-
-    print "-----------"
+    if overwrite:
+        print subprocess.Popen("sudo mkdir -p /var/www/html/alarm && sudo cp -R php/* /var/www/html/alarm", shell=True, stdout=subprocess.PIPE).stdout.read()
+        print "-----------"
+    else:
+        print subprocess.Popen("sudo find . -d 1 -type f -not -iname '*.properties' -exec cp -R 'php/{}' '/var/www/html/alarm/{}' ';'", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 #################ALARM FILES, CONFIG ETC######################
 alarmPath = "/home/pi/alarm"
+
+overwrite = False
+inputCorrect = False
+while inputCorrect == False:
+    overwriteInput = raw_input("Overwrite current config if any (enter 'n' if you have run this install script before)? (Y/n). ")
+    if overwriteInput == 'Y' or overwriteInput == 'y' or overwriteInput == '':
+        overwrite = True
+        inputCorrect = True
+    elif overwriteInput == 'N' or overwriteInput == 'n':
+        inputCorrect = True
+    else:
+        print "Please enter valid input 'y' or 'n'."
+
 
 print "Installing alarm files in " + alarmPath
 print subprocess.Popen("mkdir -p " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 if not alarmPath.endswith("/"):
 	alarmPath += "/"
-print subprocess.Popen("cp -R alarm/* " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
+if overwrite:
+    print subprocess.Popen("cp -R alarm/* " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
+else:
+    print subprocess.Popen("cp -R alarm/sense_motion.py " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen("cp -R alarm/truncate_log.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if isServer:
     print "Adding alarm home to admin.properties"
@@ -92,7 +124,6 @@ if isServer:
     print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
-    print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/newcronrows.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ################## ADD TO CRONTAB ###########################
 
@@ -117,7 +148,7 @@ if addToCrontab:
         print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if isServer:
-    print "Copying crontab to crontab.txt"
+    print "Saving current crontab to crontab.txt"
     print subprocess.Popen('crontab -u pi -l > /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 
