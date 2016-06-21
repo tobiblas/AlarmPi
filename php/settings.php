@@ -78,7 +78,7 @@ External IP to alarm central (Example: 74.99.99.99) <br/><input type="text" id="
     </div>
 
     <div id="setting">
-Current crontab (updates every minute): <br/>
+Current crontab (updates every minute). Example: turn on alarm monday 02:00: 0 2 * * 1 wget localhost/alarm/toggle_alarm.php?enable=true<br/>
     <div class="code" id="croncode">
 
 <textarea id="crontabText" rows="10" cols="50">
