@@ -18,7 +18,7 @@ function setProperty(property, value)
 
 function saveCron() {
 
-    var cron = document.getElementById("crontabText").innerHTML;
+    var cron = document.getElementById("crontabText").value;
     
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
