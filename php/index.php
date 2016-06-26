@@ -1,3 +1,7 @@
+<?php
+    include("auth.php");
+    ?>
+
 <html>
 <head>
 <title>Home admin</title>
