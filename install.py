@@ -89,15 +89,16 @@ if isServer:
         print subprocess.Popen("sudo mkdir -p /var/www/html/alarm && sudo cp -R php/* /var/www/html/alarm", shell=True, stdout=subprocess.PIPE).stdout.read()
         print "-----------"
     else:
-        print subprocess.Popen("sudo find . -d 1 -type f -not -iname '*.properties' -exec cp -R 'php/{}' '/var/www/html/alarm/{}' ';'", shell=True, stdout=subprocess.PIPE).stdout.read()
+        print "Copying all files except *.properties and *.txt"
+        print subprocess.Popen("sudo find . -maxdepth 1 -type f -not -iname '*.properties' -a -not -iname '*.txt' -exec cp -R 'php/{}' '/var/www/html/alarm/{}' ';'", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 #################ALARM FILES, CONFIG ETC######################
-alarmPath = "/home/pi/alarm"
+alarmPath = "/home/pi/alarm/"
 
 overwrite = False
 inputCorrect = False
 while inputCorrect == False:
-    overwriteInput = raw_input("Overwrite current config if any (enter 'n' if you have run this install script before)? (Y/n). ")
+    overwriteInput = raw_input("Overwrite everything? (enter 'n' if you have run this install script before) (Y/n). ")
     if overwriteInput == 'Y' or overwriteInput == 'y' or overwriteInput == '':
         overwrite = True
         inputCorrect = True
@@ -109,8 +110,7 @@ while inputCorrect == False:
 
 print "Installing alarm files in " + alarmPath
 print subprocess.Popen("mkdir -p " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
-if not alarmPath.endswith("/"):
-	alarmPath += "/"
+
 if overwrite:
     print subprocess.Popen("cp -R alarm/* " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 else:
@@ -118,8 +118,6 @@ else:
     print subprocess.Popen("cp -R alarm/truncate_log.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if isServer:
-    print "Adding alarm home to admin.properties"
-    print subprocess.Popen('echo "alarm_home:' + alarmPath + '" | sudo tee /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
     print "Making the alarm application available for the php server"
     print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
