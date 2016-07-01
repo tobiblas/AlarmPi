@@ -90,7 +90,7 @@ if isServer:
         print "-----------"
     else:
         print "Copying all files except *.properties and *.txt"
-        print subprocess.Popen("sudo find . -maxdepth 1 -type f -not -iname '*.properties' -a -not -iname '*.txt' -exec cp -R 'php/{}' '/var/www/html/alarm/{}' ';'", shell=True, stdout=subprocess.PIPE).stdout.read()
+        print subprocess.Popen("d php && sudo find * -type f -not -iname '*.properties' -a -not -iname '*.txt' -exec cp '{}' '/var/www/html/alarm/{}' ';' && cd ..", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 #################ALARM FILES, CONFIG ETC######################
 alarmPath = "/home/pi/alarm/"
