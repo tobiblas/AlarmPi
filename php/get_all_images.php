@@ -2,7 +2,7 @@
     
     $config = array();
     
-    $dir    = '/var/www/html/alarm/photos';
+    $dir    = '/var/www/html/photos';
     #$dir    = 'photos';
     $files1 = scandir($dir);
     #$files2 = scandir($dir, 1);

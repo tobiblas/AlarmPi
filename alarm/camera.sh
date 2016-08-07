@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p /var/www/html/alarm/photos
+mkdir -p /var/www/html/photos
 
 DATE=$(date +"%Y-%m-%d_%H%M")
 
