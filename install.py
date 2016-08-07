@@ -38,59 +38,59 @@ while inputCorrect == False:
 
 ################# APACHE2 ####################################
 
-if isServer:
-    print "Checking for apache installation..."
+#if isServer:
+print "Checking for apache installation..."
 
-    apache2path = subprocess.Popen("which apache2", shell=True, stdout=subprocess.PIPE).stdout.read()
+apache2path = subprocess.Popen("which apache2", shell=True, stdout=subprocess.PIPE).stdout.read()
 
-    if "apache2" not in apache2path:
-        print "installing apache web server (might take a while..)"
-        print subprocess.Popen("sudo apt-get install apache2 -y", shell=True, stdout=subprocess.PIPE).stdout.read()
-    else:
-        print "apache already installed. Skipping"
+if "apache2" not in apache2path:
+    print "installing apache web server (might take a while..)"
+    print subprocess.Popen("sudo apt-get install apache2 -y", shell=True, stdout=subprocess.PIPE).stdout.read()
+else:
+    print "apache already installed. Skipping"
 
-    print "-----------"
+print "-----------"
 
 ################# PHP ########################################
 
-if isServer:
-    print "Checking for php installation..."
+#if isServer:
+print "Checking for php installation..."
 
-    phpPath = subprocess.Popen("which php", shell=True, stdout=subprocess.PIPE).stdout.read()
+phpPath = subprocess.Popen("which php", shell=True, stdout=subprocess.PIPE).stdout.read()
 
-    if "php" not in phpPath:
-        print "installing php  (might take a while..)"
-        print subprocess.Popen("sudo apt-get install php5 libapache2-mod-php5 -y", shell=True, stdout=subprocess.PIPE).stdout.read()
-    else:
-        print "php already installed. Skipping"
+if "php" not in phpPath:
+    print "installing php  (might take a while..)"
+    print subprocess.Popen("sudo apt-get install php5 libapache2-mod-php5 -y", shell=True, stdout=subprocess.PIPE).stdout.read()
+else:
+    print "php already installed. Skipping"
 
-    print "-----------"
+print "-----------"
 
 ################# MOVE PHP PAGE TO RIGHT PLACE ###############
 
-if isServer:
+#if isServer:
     
-    overwrite = False
-    inputCorrect = False
-    while inputCorrect == False:
-        overwriteInput = raw_input("Overwrite current config if any (enter 'n' if you have run this install script before)? (Y/n). ")
-        if overwriteInput == 'Y' or overwriteInput == 'y' or overwriteInput == '':
-            overwrite = True
-            inputCorrect = True
-        elif overwriteInput == 'N' or overwriteInput == 'n':
-            inputCorrect = True
-        else:
-            print "Please enter valid input 'y' or 'n'."
-
-    print "adding php admin page for alarm."
-    print "installing php pages in /var/www/html/"
-
-    if overwrite:
-        print subprocess.Popen("sudo mkdir -p /var/www/html/alarm && sudo cp -R php/* /var/www/html/alarm", shell=True, stdout=subprocess.PIPE).stdout.read()
-        print "-----------"
+overwrite = False
+inputCorrect = False
+while inputCorrect == False:
+    overwriteInput = raw_input("Overwrite current config if any (enter 'n' if you have run this install script before)? (Y/n). ")
+    if overwriteInput == 'Y' or overwriteInput == 'y' or overwriteInput == '':
+        overwrite = True
+        inputCorrect = True
+    elif overwriteInput == 'N' or overwriteInput == 'n':
+        inputCorrect = True
     else:
-        print "Copying all files except *.properties and *.txt"
-        print subprocess.Popen("cd php && sudo find * -type f -not -iname '*.properties' -a -not -iname '*.txt' -exec cp '{}' '/var/www/html/alarm/{}' ';' && cd ..", shell=True, stdout=subprocess.PIPE).stdout.read()
+        print "Please enter valid input 'y' or 'n'."
+
+print "adding php admin page for alarm."
+print "installing php pages in /var/www/html/"
+
+if overwrite:
+    print subprocess.Popen("sudo mkdir -p /var/www/html/alarm && sudo cp -R php/* /var/www/html/alarm", shell=True, stdout=subprocess.PIPE).stdout.read()
+    print "-----------"
+else:
+    print "Copying all files except *.properties and *.txt"
+    print subprocess.Popen("cd php && sudo find * -type f -not -iname '*.properties' -a -not -iname '*.txt' -exec cp '{}' '/var/www/html/alarm/{}' ';' && cd ..", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 #################ALARM FILES, CONFIG ETC######################
 alarmPath = "/home/pi/alarm/"
