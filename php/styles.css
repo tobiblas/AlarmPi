@@ -148,6 +148,44 @@ hr {
     margin: 5px 0px 0px 0px;
 }
 
+.alarmimage {
+    display:block;
+    margin:auto;
+    height: auto;
+    width: 100%;
+    padding: 10px;
+}
+
+.devicdeheaderimages {
+    padding: 10px 0px 10px 10px;
+    font-style:bold;
+    color: #000000;
+    font-size:large;
+}
+
+.captureimage {
+    text-align:left;
+    padding: 0px 20px 20px 20px;
+    margin-top:30px;
+    color: #6E92A1;
+    font-size:xx-large;
+    font-style:bold;
+    height: 30px;
+    line-height: 30px;
+}
+
+.devicelocation  {
+    text-align:right;
+    padding: 0px 20px 20px 20px;
+    margin-top:20px;
+    color: #000000;
+    font-size:x-large;
+    font-style:bold;
+    height: 30px;
+    line-height: 30px;
+    
+}
+
 textarea
 {
     width:100%;
