@@ -143,7 +143,7 @@ hr {
     width: 95px;
 }
 
-#emailstext, #phonenumbertext {
+#emailstext, #phonenumbertext, #deviceIPsText, #devicesText {
     width: 100%;
     margin: 5px 0px 0px 0px;
 }

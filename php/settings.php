@@ -46,6 +46,16 @@ include("config.php");
 
 <div id="settings">
 
+<div id="setting">
+List of connected device IDs (Example: livingroom,kitchen,garage). Use comma as separator and no funny characters or spaces. The IDs are used in the history graphs.<br/><input type="text" id="devicesText" value=<?php if ($config['devices'] != NULL) { echo '"' . $config['devices'] . '"';} else { echo '""';} ?>
+onkeydown="if (event.keyCode == 13) setProperty('devices', '' + document.getElementById('devicesText').value)" ><br>
+</div>
+
+<div id="setting">
+List of connected device IP addresses (Example: 192.168.0.100,192.168.0.104,192.168.0.105). Use comma as separator and no funny characters or spaces. Make sure the IP addresses are static (configure this in your router settings) <br/><input type="text" id="deviceIPsText" value=<?php if ($config['deviceIPs'] != NULL) { echo '"' . $config['deviceIPs'] . '"';} else { echo '""';} ?>
+onkeydown="if (event.keyCode == 13) setProperty('deviceIPs', '' + document.getElementById('deviceIPsText').value)" ><br>
+</div>
+
     <div id="setting">
 <input id="soundcheckbox" <?php if ($config['sound'] == 'true' || $config['sound'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('sound', '' + document.getElementById('soundcheckbox').checked)"> Sound when alarm triggers<br>
     </div>
