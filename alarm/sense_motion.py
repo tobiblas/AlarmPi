@@ -59,8 +59,6 @@ def triggerAlarm():
 #        print "system not configured to use phone or alarm is off"
 
     # trigger call to php server
-    print subprocess.Popen("./camera.sh", shell=True, stdout=subprocess.PIPE).stdout.read()
-    time.sleep(2)
     url = myprops['serverURL'].strip() + 'trigger_alarm.php?triggerID=' + myprops['detectorID'].strip()
     print "calling " + url
     response = urllib2.urlopen(url)
@@ -69,6 +67,8 @@ def triggerAlarm():
     else:
         body = response.read()
         if "ALARMON" in body:
+            print subprocess.Popen("./camera.sh", shell=True, stdout=subprocess.PIPE).stdout.read()
+            time.sleep(2)
             piezo_thread = threading.Thread(target=triggerPiezo)
             piezo_thread.start()
     response.close()
