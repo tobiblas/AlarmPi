@@ -1,4 +1,4 @@
 <?php
-    $command = '/var/www/html/alarm/take_picture.php';
+    $command = '/home/pi/alarm/camera.sh';
     echo exec($command . ' 2>&1');
 ?>

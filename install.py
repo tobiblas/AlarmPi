@@ -5,21 +5,21 @@ from shutil import move
 from os import remove, close
 
 ######### CHECK IF UPGRADED ###############
-updateToLatest = False
-inputCorrect = False
-while inputCorrect == False:
-    update = raw_input("Do you want to upgrade Raspbian to latest update (might take up to an hour? (Y/n). ")
-    if update == 'Y' or update == 'y' or update == '':
-        updateToLatest = True
-        inputCorrect = True
-    elif update == 'N' or update == 'n':
-        print "NOT checking for updates."
-        inputCorrect = True
-    else:
-        print "Please enter valid input 'y' or 'n'."
-if updateToLatest:
-    print "Checking for new updates..."
-    print subprocess.Popen("sudo apt-get update & sudo apt-get dist-upgrade -y", shell=True, stdout=subprocess.PIPE).stdout.read()
+#updateToLatest = False
+#inputCorrect = False
+#while inputCorrect == False:
+#    update = raw_input("Do you want to upgrade Raspbian to latest update (might take up to an hour? (Y/n). ")
+#    if update == 'Y' or update == 'y' or update == '':
+#        updateToLatest = True
+#        inputCorrect = True
+#    elif update == 'N' or update == 'n':
+#        print "NOT checking for updates."
+#        inputCorrect = True
+#    else:
+#        print "Please enter valid input 'y' or 'n'."
+#if updateToLatest:
+#    print "Checking for new updates..."
+#    print subprocess.Popen("sudo apt-get update & sudo apt-get dist-upgrade -y", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ######### CHECK IF THIS PI SHOULD HAVE SERVER ###############
 isServer = False
@@ -38,7 +38,6 @@ while inputCorrect == False:
 
 ################# APACHE2 ####################################
 
-#if isServer:
 print "Checking for apache installation..."
 
 apache2path = subprocess.Popen("which apache2", shell=True, stdout=subprocess.PIPE).stdout.read()
@@ -53,7 +52,6 @@ print "-----------"
 
 ################# PHP ########################################
 
-#if isServer:
 print "Checking for php installation..."
 
 phpPath = subprocess.Popen("which php", shell=True, stdout=subprocess.PIPE).stdout.read()
@@ -68,12 +66,11 @@ print "-----------"
 
 ################# MOVE PHP PAGE TO RIGHT PLACE ###############
 
-#if isServer:
-    
+print "about to add php admin page for alarm."
 overwrite = False
 inputCorrect = False
 while inputCorrect == False:
-    overwriteInput = raw_input("Overwrite current config if any (enter 'n' if you have run this install script before)? (Y/n). ")
+    overwriteInput = raw_input("Overwrite current php config if any (enter 'n' if you have run this install script before)? (Y/n). ")
     if overwriteInput == 'Y' or overwriteInput == 'y' or overwriteInput == '':
         overwrite = True
         inputCorrect = True
@@ -94,6 +91,8 @@ else:
 
 #################ALARM FILES, CONFIG ETC######################
 alarmPath = "/home/pi/alarm/"
+
+print "about to install alarm application in " + alarmPath
 
 overwrite = False
 inputCorrect = False
@@ -116,19 +115,19 @@ if overwrite:
 else:
     print subprocess.Popen("cp -R alarm/sense_motion.py " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen("cp -R alarm/truncate_log.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen("cp -R alarm/camera.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 
-if isServer:
-    print "Making the alarm application available for the php server"
-    print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
-    print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
-    print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
+print "Making the alarm application available for the php server"
+print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
+print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
+print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ################## ADD TO CRONTAB ###########################
 
 addToCrontab = False
 inputCorrect = False
 while inputCorrect == False:
-    addToCron = raw_input("Add useful stuff to crontab (enter 'n' if you have run this install script before)? (Y/n). ")
+    addToCron = raw_input("Add useful stuff to crontab? (enter 'n' if you have run this install script before) (Y/n). ")
     if addToCron == 'Y' or addToCron == 'y' or addToCron == '':
         addToCrontab = True
         inputCorrect = True
@@ -149,10 +148,26 @@ if isServer:
     print "Saving current crontab to crontab.txt"
     print subprocess.Popen('crontab -u pi -l > /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
+######### Camera setup #######################################
+
+hasCamera = False
+inputCorrect = False
+while inputCorrect == False:
+    camera = raw_input("Does this unit have an attached camera?")
+    if camera == 'Y' or camera == 'y' or camera == '':
+        hasCamera = True
+        inputCorrect = True
+    elif camera == 'N' or camera == 'n':
+        inputCorrect = True
+    else:
+        print "Please enter valid input 'y' or 'n'."
+
+if hasCamera:
+    print "Creating photos folder if needed"
+    print subprocess.Popen('sudo mkdir -p /var/www/html/photos', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('sudo chown www-data:www-data /var/www/html/photos', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 ######### rc.local MAKE SENSE MOTION SCRIPT START AT BOOT ####
-
-print "Adding sense_motion.py to rc.local to start up during Pi boot."
 
 #Create temp file
 fh, abs_path = mkstemp()
@@ -168,6 +183,7 @@ with open(abs_path,'w') as new_file:
             new_file.write(line)
 close(fh)
 if not abort:
+    print "Adding sense_motion.py to rc.local to start up during Pi boot."
     # Remove original file
     print subprocess.Popen('sudo rm /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
     #  Move new file
@@ -179,4 +195,4 @@ else:
 ##############################################################
 
 print
-print "Congratulation! Now go to " + alarmPath + "settings.properties and fill in the necessary data."
+print "Congratulation! Now go to <Your IP>/alarm and fill in all settings."

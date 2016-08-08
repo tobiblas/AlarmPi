@@ -1,33 +1,33 @@
 
 <script>
 
-function fetchImagesFromDevice(IP, idOfElement) {
+function takePicture(IP) {
     
     var request = new XMLHttpRequest();
-    var requestStr = "http.php?url=" + IP + "/alarm/get_all_images.php";
+    var requestStr = "http.php?url=" + IP + "/alarm/take_picture.php";
     request.open('GET', requestStr, true);
     
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
             // Success!
             var resp =request.responseText;
-            alert (resp);
-            var theElement = document.getElementById(idOfElement);
+            alert ("Response: " + resp);
+            //var theElement = document.getElementById(idOfElement);
             
-            theElement.innerHTML = resp;
+            //theElement.innerHTML = resp;
         } else {
             // We reached our target server, but it returned an error
             alert ("error for IP " + IP + ": " + request.responseText);
-            var theElement = document.getElementById(idOfTempElement);
-            theElement.innerHTML = "Error";
+            //var theElement = document.getElementById(idOfTempElement);
+            //theElement.innerHTML = "Error";
         }
     };
     
     request.onerror = function() {
         alert("There was a connection error of some sort for " + IP);
         alert ("error for IP " + IP + ": " + request.responseText);
-        var theElement = document.getElementById(idOfTempElement);
-        theElement.innerHTML = "Error";
+        //var theElement = document.getElementById(idOfTempElement);
+        //theElement.innerHTML = "Error";
     };
     
     request.send();
@@ -54,7 +54,7 @@ if ($config['deviceIPs'] != null && $config['devices'] != null && trim($config['
         echo '</div>' . PHP_EOL;
         echo '<div class="col-6">' . PHP_EOL;
         echo '<div class="captureimage">' . PHP_EOL;
-        echo '<button>CAPTURE!</button>' . PHP_EOL;
+        echo '<button onclick="takePicture(\'' . $IP . '\')" >CAPTURE!</button>' . PHP_EOL;
         echo '</div>' . PHP_EOL;
         echo '</div>' . PHP_EOL;
         echo '</div>' . PHP_EOL;
@@ -70,7 +70,7 @@ if ($config['deviceIPs'] != null && $config['devices'] != null && trim($config['
         echo '</div>' . PHP_EOL;
         echo '</div>' . PHP_EOL;
         echo '</div>' . PHP_EOL;
-        echo '<script>fetchImagesFromDevice("'. $IP .'", "' .$devices[$index] . '");</script>' . PHP_EOL;
+        #echo '<script>fetchImagesFromDevice("'. $IP .'", "' .$devices[$index] . '");</script>' . PHP_EOL;
     }
     
 } else {
