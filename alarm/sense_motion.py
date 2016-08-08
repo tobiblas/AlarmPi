@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
 from subprocess import call
+import subprocess
 import time
 import sys
 import urllib2
@@ -58,6 +59,8 @@ def triggerAlarm():
 #        print "system not configured to use phone or alarm is off"
 
     # trigger call to php server
+    print subprocess.Popen("./camera.sh", shell=True, stdout=subprocess.PIPE).stdout.read()
+    time.sleep(2)
     url = myprops['serverURL'].strip() + 'trigger_alarm.php?triggerID=' + myprops['detectorID'].strip()
     print "calling " + url
     response = urllib2.urlopen(url)
