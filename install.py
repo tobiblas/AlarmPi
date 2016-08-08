@@ -36,6 +36,7 @@ while inputCorrect == False:
     else:
         print "Please enter valid input 'y' or 'n'."
 
+print "-----------"
 ################# APACHE2 ####################################
 
 print "Checking for apache installation..."
