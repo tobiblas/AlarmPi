@@ -25,7 +25,7 @@ from os import remove, close
 isServer = False
 inputCorrect = False
 while inputCorrect == False:
-    mainBrain = raw_input("Should this Raspberry Pi run a php server i.e is this Pi the main brain of the alarm system? (Y/n). ")
+    mainBrain = raw_input("Is this Pi the main brain of the alarm system? (Y/n). ")
     if mainBrain == 'Y' or mainBrain == 'y' or mainBrain == '':
         print "you have chosen to use this Pi as main brain in the alarm system."
         isServer = True
@@ -84,10 +84,11 @@ print "installing php pages in /var/www/html/"
 
 if overwrite:
     print subprocess.Popen("sudo mkdir -p /var/www/html/alarm && sudo cp -R php/* /var/www/html/alarm", shell=True, stdout=subprocess.PIPE).stdout.read()
-    print "-----------"
 else:
     print "Copying all files except *.properties and *.txt"
     print subprocess.Popen("cd php && sudo find * -type f -not -iname '*.properties' -a -not -iname '*.txt' -exec cp '{}' '/var/www/html/alarm/{}' ';' && cd ..", shell=True, stdout=subprocess.PIPE).stdout.read()
+
+print "-----------"
 
 #################ALARM FILES, CONFIG ETC######################
 alarmPath = "/home/pi/alarm/"
@@ -122,6 +123,8 @@ print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=
 print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
 print subprocess.Popen('sudo chmod 777 /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
+print "-----------"
+
 ################## ADD TO CRONTAB ###########################
 
 addToCrontab = False
@@ -148,12 +151,14 @@ if isServer:
     print "Saving current crontab to crontab.txt"
     print subprocess.Popen('crontab -u pi -l > /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
 
+print "-----------"
+
 ######### Camera setup #######################################
 
 hasCamera = False
 inputCorrect = False
 while inputCorrect == False:
-    camera = raw_input("Does this unit have an attached camera?")
+    camera = raw_input("Does this unit have an attached camera? (Y/n).")
     if camera == 'Y' or camera == 'y' or camera == '':
         hasCamera = True
         inputCorrect = True
@@ -166,6 +171,8 @@ if hasCamera:
     print "Creating photos folder if needed"
     print subprocess.Popen('sudo mkdir -p /var/www/html/photos', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('sudo chown www-data:www-data /var/www/html/photos', shell=True, stdout=subprocess.PIPE).stdout.read()
+
+print "-----------"
 
 ######### rc.local MAKE SENSE MOTION SCRIPT START AT BOOT ####
 
@@ -189,6 +196,7 @@ if not abort:
     #  Move new file
     print subprocess.Popen('sudo mv ' + abs_path  + ' /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('sudo chmod 777 /etc/rc.local', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print "-----------"
 else:
     print subprocess.Popen('sudo rm ' + abs_path, shell=True, stdout=subprocess.PIPE).stdout.read()
 
