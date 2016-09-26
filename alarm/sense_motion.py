@@ -67,7 +67,7 @@ def triggerAlarm():
     else:
         body = response.read()
         if "ALARMON" in body:
-            print subprocess.Popen("./camera.sh", shell=True, stdout=subprocess.PIPE).stdout.read()
+            print subprocess.Popen("sudo /home/pi/alarm/camera.sh", shell=True, stdout=subprocess.PIPE).stdout.read()
             time.sleep(2)
             piezo_thread = threading.Thread(target=triggerPiezo)
             piezo_thread.start()
