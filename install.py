@@ -154,7 +154,7 @@ if addToCrontab:
     if isServer:
         print "Adding to crontab so that logs are truncated."
         print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
-        print subprocess.Popen('(crontab -u pi -l 2>/dev/null; echo "* * * * * /home/pi/alarm/copycron.sh") | crontab -u pi -', shell=True, stdout=subprocess.PIPE).stdout.read()
+        print subprocess.Popen('(crontab -l 2>/dev/null; echo "* * * * * /home/pi/alarm/copycron.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if isServer:
     print "Saving current crontab to crontab.txt"
