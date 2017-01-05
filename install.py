@@ -118,6 +118,7 @@ else:
     print subprocess.Popen("cp -R alarm/sense_motion.py " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen("cp -R alarm/truncate_log.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen("cp -R alarm/camera.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen("cp -R alarm/checkrunning.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 
 print "Making the alarm application available for the php server"
 print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
@@ -144,14 +145,21 @@ if addToCrontab:
     print "Adding to crontab so that network stays up."
     print subprocess.Popen('(crontab -l 2>/dev/null; echo "* * * * * ping 8.8.8.8 -c 1 > /dev/null 2>&1") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('(crontab -l 2>/dev/null; echo "* * * * * /home/pi/alarm/checkrunning.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+    
+    print subprocess.Popen('(crontab -l 2>/dev/null; echo "3 0 * * * mv /var/www/html/photos/* /var/www/html/photos_backup1/") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('(crontab -l 2>/dev/null; echo "2 0 * * 0 mv /var/www/html/photos_backup1/* /var/www/html/photos_backup2/") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('(crontab -l 2>/dev/null; echo "1 0 * * 0 rm /var/www/html/photos_backup2/*") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
 
     if isServer:
         print "Adding to crontab so that logs are truncated."
         print subprocess.Popen('(crontab -l 2>/dev/null; echo "0 0 * * * /home/pi/alarm/truncate_log.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
+        print subprocess.Popen('(crontab -u pi -l 2>/dev/null; echo "* * * * * if [ $(cat /var/www/html/alarm/crontab.txt | wc -l) -gt "0" ]; then crontab -r -u pi; crontab /var/www/html/alarm/crontab.txt && > /var/www/html/alarm/crontab.txt; fi") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if isServer:
     print "Saving current crontab to crontab.txt"
     print subprocess.Popen('crontab -u pi -l > /var/www/html/alarm/crontab.txt', shell=True, stdout=subprocess.PIPE).stdout.read()
+
+
 
 print "-----------"
 
@@ -172,6 +180,8 @@ while inputCorrect == False:
 if hasCamera:
     print "Creating photos folder if needed"
     print subprocess.Popen('sudo mkdir -p /var/www/html/photos', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('sudo mkdir -p /var/www/html/photos_backup1', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('sudo mkdir -p /var/www/html/photos_backup2', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('sudo chown www-data:www-data /var/www/html/photos', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 print "-----------"
