@@ -186,7 +186,7 @@ if hasCamera:
 
 print "-----------"
 
-######### Camera setup #######################################
+######### Add to profile #######################################
 
 addToProfile = False
 inputCorrect = False
@@ -204,7 +204,7 @@ if addToProfile:
     print "Adding aliases to .profile"
     print subprocess.Popen('echo \'alias OFF="wget -qO- localhost/alarm/toggle_alarm.php?enable=false &> /dev/null"\' >> /home/pi/.profile', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('echo \'alias ON="wget -qO- localhost/alarm/toggle_alarm.php?enable=true &> /dev/null"\' >> /home/pi/.profile', shell=True, stdout=subprocess.PIPE).stdout.read()
-    print subprocess.Popen('source /home/pi/.profile', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('. /home/pi/.profile', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 print "-----------"
 
