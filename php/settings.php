@@ -57,19 +57,6 @@ onkeydown="if (event.keyCode == 13) setProperty('deviceIPs', '' + document.getEl
 </div>
 
     <div id="setting">
-<input id="soundcheckbox" <?php if ($config['sound'] == 'true' || $config['sound'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('sound', '' + document.getElementById('soundcheckbox').checked)"> Sound when alarm triggers<br>
-    </div>
-
-    <div id="setting">
-        <input id="smscheckbox" <?php if ($config['sms'] == 'true' || $config['sms'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('sms', '' + document.getElementById('smscheckbox').checked)"> Send sms when alarm triggers<br>
-    </div>
-
-    <div id="setting">
-Phonenumbers to sms when alarm triggers. Separate numbers with ';'. Example: +46760999999 <br/><input type="text" id="phonenumbertext" value=<?php if ($config['phoneNumbers'] != NULL) { echo '"' . $config['phoneNumbers'] . '"';} else { echo '""';} ?>
-onkeydown="if (event.keyCode == 13) setProperty('phoneNumbers', '' + document.getElementById('phonenumbertext').value)" ><br>
-    </div>
-
-    <div id="setting">
     <input id="mailcheckbox" <?php if ($config['mail'] == 'true' || $config['mail'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('mail', '' + document.getElementById('mailcheckbox').checked)"> Send mail when alarm triggers<br>
     </div>
 

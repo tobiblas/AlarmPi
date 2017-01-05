@@ -176,6 +176,28 @@ if hasCamera:
 
 print "-----------"
 
+######### Camera setup #######################################
+
+addToProfile = False
+inputCorrect = False
+while inputCorrect == False:
+    profile = raw_input("Add useful stuff to .profile? (Y/n).")
+    if profile == 'Y' or profile == 'y' or profile == '':
+        addToProfile = True
+        inputCorrect = True
+    elif profile == 'N' or profile == 'n':
+        inputCorrect = True
+    else:
+        print "Please enter valid input 'y' or 'n'."
+
+if addToProfile:
+    print "Adding aliases to .profile"
+    print subprocess.Popen('echo \'alias OFF="wget -qO- localhost/alarm/toggle_alarm.php?enable=false &> /dev/null"\' >> /home/pi/.profile', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('echo \'alias ON="wget -qO- localhost/alarm/toggle_alarm.php?enable=true &> /dev/null"\' >> /home/pi/.profile', shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen('source /home/pi/.profile', shell=True, stdout=subprocess.PIPE).stdout.read()
+
+print "-----------"
+
 ##############################################################
 
 print
