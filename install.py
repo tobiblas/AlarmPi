@@ -119,6 +119,7 @@ else:
     print subprocess.Popen("cp -R alarm/truncate_log.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen("cp -R alarm/camera.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen("cp -R alarm/checkrunning.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen("cp -R alarm/copycron.sh " + alarmPath, shell=True, stdout=subprocess.PIPE).stdout.read()
 
 print "Making the alarm application available for the php server"
 print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
