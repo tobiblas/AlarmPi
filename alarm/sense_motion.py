@@ -4,6 +4,7 @@ from subprocess import call
 import subprocess
 import time
 import sys
+import base64
 import urllib2
 import threading
 import RPi.GPIO as GPIO
@@ -61,7 +62,10 @@ def triggerAlarm():
     # trigger call to php server
     url = myprops['serverURL'].strip() + 'trigger_alarm.php?triggerID=' + myprops['detectorID'].strip()
     print "calling " + url
-    response = urllib2.urlopen(url)
+    request = urllib2.Request(url)
+    base64string = base64.b64encode('%s:%s' % ("tobiblas", "tobbej"))
+    request.add_header("Authorization", "Basic %s" % base64string)   
+    response = urllib2.urlopen(request)
     if not response.code == 200:
         print "ERROR! Did not get 200 response"
     else:
