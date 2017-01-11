@@ -80,7 +80,6 @@ while inputCorrect == False:
     else:
         print "Please enter valid input 'y' or 'n'."
 
-print "adding php admin page for alarm."
 print "installing php pages in /var/www/html/"
 
 if overwrite:
@@ -88,6 +87,8 @@ if overwrite:
 else:
     print "Copying all files except *.properties and *.txt"
     print subprocess.Popen("cd php && sudo find * -type f -not -iname '*.properties' -a -not -iname '*.txt' -exec cp '{}' '/var/www/html/alarm/{}' ';' && cd ..", shell=True, stdout=subprocess.PIPE).stdout.read()
+
+print subprocess.Popen("sudo mkdir -p /var/www/html/alarmOpen && sudo cp -R phpOpen/* /var/www/html/alarmOpen", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 print "-----------"
 
