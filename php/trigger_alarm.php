@@ -2,7 +2,7 @@
     
     #THIS FILE IS CALLED ON THE MASTER PI UNIT (ALARM CENTRAL)
     
-    #$triggerID = $_GET['triggerID'];
+    $triggerID = $_GET['triggerID'];
     include("config.php");
 
     $alarmstriggered = file_get_contents($config['alarm_home'] . "ALARMTRIGGERED.txt");
