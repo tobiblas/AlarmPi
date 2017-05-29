@@ -65,6 +65,41 @@ else:
 
 print "-----------"
 
+################# INSTALL MAIL ###############################
+
+print "Checking for ssmtp..."
+
+ssmtpPath = subprocess.Popen("which ssmtp", shell=True, stdout=subprocess.PIPE).stdout.read()
+
+if "ssmtp" not in ssmtpPath:
+    print "installing ssmtp  (might take a while..)"
+    print subprocess.Popen("sudo apt-get install ssmtp --fix-missing", shell=True, stdout=subprocess.PIPE).stdout.read()
+else:
+    print "ssmtp already installed. Skipping"
+
+print "-----------"
+
+print "installing mailutils  (might take a while..)"
+print subprocess.Popen("sudo apt-get install mailutils -y", shell=True, stdout=subprocess.PIPE).stdout.read()
+else:
+
+print "-----------"
+
+#sudo vi /etc/ssmtp/ssmtp.conf
+#MANDATORY LINES TO INSERT:
+#root=postmaster
+#mailhub=smtp.gmail.com:587
+#hostname=raspberrypi
+#AuthUser=tobiblaspi@gmail.com
+#AuthPass=apelsin01
+#UseSTARTTLS=YES
+
+#sudo vi /etc/ssmtp/revaliases
+#INSERT
+#root:root@gmail.com:smtp.gmail.com:587
+
+#sudo chmod 774 /etc/ssmtp/ssmtp.conf
+
 ################# MOVE PHP PAGE TO RIGHT PLACE ###############
 
 print "about to add php admin page for alarm."
