@@ -1,7 +1,10 @@
 <?php
     
     #THIS FILE IS CALLED ON THE MASTER PI UNIT (ALARM CENTRAL)
-    
+    #CALLING THIS FROM ANY UNIT TELLS THE SERVER THAT SOMETHING
+    #HAS BEEN DETECTED. THIS SCRIPT RESPONDS WITH IF THE ALARM
+    # IS ON OR NOT AN LOGS THE MOTION.
+ 
     $triggerID = $_GET['triggerID'];
     include("config.php");
 
@@ -36,41 +39,7 @@
     
     
     if ($alarm_on) {
-        
-        $subject = "ALARM TRIGGERED. Detector: " . $triggerID;
-        $external = $config['externalIP'];
-        $content = "Check alarm status here: http://" . trim($external) . "/alarm";
-        
-        if ($config['mail'] == null || $config['mail'] == 'true') {
-            
-            $emails = explode(';', $config['emails']);
-            foreach($emails as $address) {
-                $address = trim($address);
-                shell_exec('echo "' . $content . '" | mail -s "' . $subject . '" ' . $address);
-            }
-        }
-        
-        $sound = 'true';
-        if ($config['sound'] != null) {
-            $sound = $config['sound'];
-        }
-        $sms = 'true';
-        if ($config['sms'] != null) {
-            $sms = $config['sms'];
-        }
-        $phoneNumbers = "";
-        if ($config['phoneNumbers'] != null) {
-            $phoneNumbers = $config['phoneNumbers'];
-        }
-
-        $message = $subject . '\n' . $content;
-        #start application
-        #shell_exec('sudo adb shell am start -a android.intent.action.VIEW -n com.tobiblas.alarmpusher/.MainActivity -e sound ' . $sound . ' -e sms ' . $sms . ' -e phonenumbers "' . $phoneNumbers . '" -e message "Hej tobiassssss"');
-        if ( $config['sound'] == 'false') {
-            echo "SOUNDOFF";
-        } else {
-            echo "ALARMON";
-        }
+        echo "ALARMON";
     } else {
         echo "ALARMOFF";
     }

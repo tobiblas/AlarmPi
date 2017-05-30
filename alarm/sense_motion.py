@@ -13,6 +13,7 @@ location = "/home/pi/alarm/"
 
 buzzerOn = False
 
+
 def triggerPiezo():
     global buzzerOn
     if buzzerOn:
@@ -34,6 +35,18 @@ def triggerPiezo():
             c = 0
     buzzerOn = False
 
+def triggerMail(myprops):
+    # trigger call to php server
+    url = myprops['serverURL'].strip() + 'trigger_mail.php?triggerID=' + myprops['detectorID'].strip()
+    print "calling trigger_mail " + url
+    request = urllib2.Request(url)
+    response = urllib2.urlopen(request)
+    if not response.code == 200:
+        print "ERROR! Did not get 200 response"
+    response.close()
+    piezo_thread = threading.Thread(target=triggerPiezo)
+    piezo_thread.start()
+
 def triggerAlarm():
     print "The alarm went off. Trigger php server"
     
@@ -49,16 +62,6 @@ def triggerAlarm():
             myprops[k] = v
     print myprops
 
-#if alarmOn and (myprops['sound'].strip() == 'true' or myprops['sms'].strip() == 'true'):
-#        print "triggering android app"
-#        message = "Alarm triggered. DetectorID = " + ""
-#        messageToAndroidApp(myprops['sound'].strip() == 'true',
-#                        myprops['sms'].strip() == 'true',
-#                        message,
-#                        myprops['phonenumbers'].strip())
-#    else:
-#        print "system not configured to use phone or alarm is off"
-
     # trigger call to php server
     url = myprops['serverURL'].strip() + 'trigger_alarm.php?triggerID=' + myprops['detectorID'].strip()
     print "calling " + url
@@ -73,8 +76,7 @@ def triggerAlarm():
         if "ALARMON" in body:
             print subprocess.Popen("sudo /home/pi/alarm/camera.sh", shell=True, stdout=subprocess.PIPE).stdout.read()
             time.sleep(2)
-            piezo_thread = threading.Thread(target=triggerPiezo)
-            piezo_thread.start()
+            triggerMail(myprops);
     response.close()
 
 
