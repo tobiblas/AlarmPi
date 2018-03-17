@@ -35,7 +35,7 @@ def triggerPiezo():
             c = 0
     buzzerOn = False
 
-def triggerMail(myprops):
+def triggerMail(myprops, soundOn):
     # trigger call to php server
     url = myprops['serverURL'].strip() + 'trigger_mail.php?triggerID=' + myprops['detectorID'].strip()
     print "calling trigger_mail " + url
@@ -44,20 +44,21 @@ def triggerMail(myprops):
     if not response.code == 200:
         print "ERROR! Did not get 200 response"
     response.close()
-    piezo_thread = threading.Thread(target=triggerPiezo)
-    piezo_thread.start()
+    if soundOn:
+        piezo_thread = threading.Thread(target=triggerPiezo)
+        piezo_thread.start()
 
 def triggerAlarm():
     print "The alarm went off. Trigger php server"
-    
+
     myprops = {}
     with open(location + 'settings.properties', 'r') as f:
         for line in f:
             line = line.rstrip() #removes trailing whitespace and '\n' chars
-            
+
             if ":" not in line: continue #skips blanks and comments w/o =
             if line.startswith("#"): continue #skips comments which contain =
-            
+
             k, v = line.split(":", 1)
             myprops[k] = v
     print myprops
@@ -67,16 +68,17 @@ def triggerAlarm():
     print "calling " + url
     request = urllib2.Request(url)
     base64string = base64.b64encode('%s:%s' % ("tobiblas", "tobbej"))
-    request.add_header("Authorization", "Basic %s" % base64string)   
+    request.add_header("Authorization", "Basic %s" % base64string)
     response = urllib2.urlopen(request)
     if not response.code == 200:
         print "ERROR! Did not get 200 response"
     else:
         body = response.read()
-        if "ALARMON" in body:
+        if "ALARMON" in body or "SOUNDOFF" in body:
             print subprocess.Popen("sudo /home/pi/alarm/camera.sh", shell=True, stdout=subprocess.PIPE).stdout.read()
+        if "ALARMON" in body:
             time.sleep(2)
-            triggerMail(myprops);
+            triggerMail(myprops, "SOUNDOFF" not in body);
     response.close()
 
 
@@ -97,7 +99,7 @@ def MOTION(PIR_PIN):
     triggerAlarm()
     time.sleep(3)
     GPIO.output(LED_PIN, False)
-               
+
 
 print 'Motion detection script loaded (CTRL+C to exit)'
 print 'Ready'

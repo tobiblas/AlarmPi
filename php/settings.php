@@ -19,7 +19,7 @@ function setProperty(property, value)
 function saveCron() {
 
     var cron = document.getElementById("crontabText").value;
-    
+
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4) {
@@ -70,6 +70,10 @@ onkeydown="if (event.keyCode == 13) setProperty('emails', '' + document.getEleme
     </div>
 
     <div id="setting">
+    <input id="sound" <?php if ($config['sound'] == 'true' || $config['sound'] == NULL) { echo "checked";} ?> type="checkbox" onchange="setProperty('sound', '' + document.getElementById('sound').checked)"> Make sound on detection when alarm is on.<br>
+    </div>
+
+    <div id="setting">
 External IP to alarm central (Example: 74.99.99.99) <br/><input type="text" id="externalIPText" value=<?php if ($config['externalIP'] != NULL) { echo '"' . $config['externalIP'] . '"';} else { echo '""';} ?>
     onkeydown="if (event.keyCode == 13) setProperty('externalIP', '' + document.getElementById('externalIPText').value)" ><br>
     </div>
@@ -92,5 +96,3 @@ Current crontab (updates every minute). Example: turn on alarm monday 02:00: 0 2
 </div>
 
 </div>
-
-
