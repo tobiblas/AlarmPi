@@ -40,6 +40,7 @@ def triggerMail(myprops, soundOn):
     url = myprops['serverURL'].strip() + 'trigger_mail.php?triggerID=' + myprops['detectorID'].strip()
     print "calling trigger_mail " + url
     request = urllib2.Request(url)
+    request.add_header("Authorization", "Basic dG9iaWFzOnRvYmJlag==")
     response = urllib2.urlopen(request)
     if not response.code == 200:
         print "ERROR! Did not get 200 response"
@@ -67,8 +68,7 @@ def triggerAlarm():
     url = myprops['serverURL'].strip() + 'trigger_alarm.php?triggerID=' + myprops['detectorID'].strip()
     print "calling " + url
     request = urllib2.Request(url)
-    base64string = base64.b64encode('%s:%s' % ("tobiblas", "tobbej"))
-    request.add_header("Authorization", "Basic %s" % base64string)
+    request.add_header("Authorization", "Basic dG9iaWFzOnRvYmJlag==")
     response = urllib2.urlopen(request)
     if not response.code == 200:
         print "ERROR! Did not get 200 response"

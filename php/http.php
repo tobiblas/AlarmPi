@@ -36,6 +36,7 @@
             }
             //  add default headers
             $this->headers["Host"] = "$this->host_name";
+            $this->headers["Authorization"] = "Basic dG9iaWFzOnRvYmJlag==";
             $this->headers["Connection"] = "close";
         }
         private function constructRequest() {
@@ -46,7 +47,7 @@
             foreach($this->headers as $header => $value) {
                 $req .= "$header: $value\r\n";
             }
-            
+
             return "$req\r\n";
         }
         ///  reads a line from a file
@@ -62,9 +63,9 @@
             return $line;
         }
         public function send() {
-            
+
             $fp = fsockopen($this->host_ip, $this->port);
-            
+
             if (! $fp) return False;
             //  construct request
             $request = $this->constructRequest();
@@ -80,7 +81,7 @@
             if(!isset($status[1]))
                 die("Couldn't get HTTP response code from response.");
             else $this->response_code = $status[1];
-            
+
             //  get the reason, e.g. "not found"
             if(!isset($status[2]))
                 die("Couldn't get HTTP response reason from response.");
@@ -116,7 +117,7 @@
         }
     }
     $request_url = $_GET['url'];
-    
+
     $req = new HttpRequest("http://" . $request_url, "GET");
     $req->headers["Connection"] = "close";
     $req->send() or die("Couldn't send!");

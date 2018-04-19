@@ -22,6 +22,7 @@ function toggle_alarm()
         }
     }
     xmlHttp.open("GET", "toggle_alarm.php", true); // true for asynchronous
+    xmlHttp.setRequestHeader("Authorization", "Basic dG9iaWFzOnRvYmJlag==")
     xmlHttp.send(null);
 }
 
@@ -31,7 +32,7 @@ function menuselected(itemselected) {
         url = url.substr(0, url.indexOf('?'));
     }
     url += '?menuitem=' + itemselected;
-    
+
     window.location.href = url;
 }
 

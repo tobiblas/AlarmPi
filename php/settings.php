@@ -13,6 +13,7 @@ function setProperty(property, value)
         }
     }
     xmlHttp.open("GET", "change_setting.php?key=" + property + "&value=" + encodeURIComponent(value), true); // true for asynchronous
+    xmlHttp.setRequestHeader("Authorization", "Basic dG9iaWFzOnRvYmJlag==")
     xmlHttp.send(null);
 }
 
@@ -31,6 +32,7 @@ function saveCron() {
         }
     }
     xmlHttp.open("GET", "add_to_cron.php?value=" + encodeURIComponent(cron), true); // true for asynchronous
+    xmlHttp.setRequestHeader("Authorization", "Basic dG9iaWFzOnRvYmJlag==")
     xmlHttp.send(null);
 }
 
