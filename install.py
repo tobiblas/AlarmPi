@@ -81,7 +81,6 @@ print "-----------"
 
 print "installing mailutils  (might take a while..)"
 print subprocess.Popen("sudo apt-get install mailutils -y", shell=True, stdout=subprocess.PIPE).stdout.read()
-else:
 
 print "-----------"
 
@@ -180,7 +179,7 @@ if addToCrontab:
     print "Adding to crontab so that network stays up."
     print subprocess.Popen('(crontab -l 2>/dev/null; echo "* * * * * ping 8.8.8.8 -c 1 > /dev/null 2>&1") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('(crontab -l 2>/dev/null; echo "* * * * * /home/pi/alarm/checkrunning.sh") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
-    
+
     print subprocess.Popen('(crontab -l 2>/dev/null; echo "3 0 * * * mv /var/www/html/photos/* /var/www/html/photos_backup1/") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('(crontab -l 2>/dev/null; echo "2 0 * * 0 mv /var/www/html/photos_backup1/* /var/www/html/photos_backup2/") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
     print subprocess.Popen('(crontab -l 2>/dev/null; echo "1 0 * * 0 rm /var/www/html/photos_backup2/*") | crontab -', shell=True, stdout=subprocess.PIPE).stdout.read()
